@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>対象区域の選定（地図）</title>
+
+<!-- このステップの設定 -->
+<script>
+  window.WS_STEP = {
+    index: 2,
+    total: 6,
+    title: '対象区域の選定',
+    mission: {
+      purpose: '自分たちの作品の題材となる地域を決めよう。',
+      steps: [
+        '「ハザードマップ」から興味のある災害種別を選択し、<strong>港北区内</strong>で対象地点を地図上で確認する。',
+        '決めた場所を右上の<strong>「ワークシート」</strong>に記録する。'
+      ],
+      goal: '場所を選び、<strong>「ワークシート」設問1、2、3</strong>に記録できたら完了です。'
+    },
+    next: '../marbling/index.html',
+    surveyUrl: 'https://survey123.arcgis.com/share/cff62fc5070c4f468b2c9269d5b2535f',
+    surveyHint: '今回の入力：設問3（使ったハザード）・設問4（地点/区域）',
+    gateKey: 'gate:step2',
+    surveyOpenMode: 'tab',
+     // ★ 追加：タイマー設定（ページごとに変える）
+    timer: {
+      minutes: 10,           // 目安時間（分）
+      mode: 'down',          // 'down'（残りを減らす） or 'up'（経過時間を増やす）
+      autostart: true,       // 自動開始
+      showClock: true,       // ヘッダーに 12:00 / 11:59 … の時計を出す
+      showBar: true,         // 進捗バーを出す
+      showControls: true     // 再生・一時停止・リセットボタンを出す（任意）
+    }
+  };
+</script>
+
+<link rel="stylesheet" href="../common/styles.css" />
+<style>
+  main.stage { padding: 0; }
+  .frame-wrap {
+    width: 100%;
+    height: calc(100dvh - 56px); /* ヘッダーぶん差し引き */
+    overflow: hidden;
+    background: #fff;
+  }
+  .frame-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>
+</head>
+<body>
+<main class="stage">
+  <div class="frame-wrap">
+    <!-- 既存の地図アプリ or 下のサンプルを読み込み -->
+    <iframe
+      src="./app/index.html"
+      allow="fullscreen"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</main>
+<script src="../common/nav.js"></script>
+</body>
+</html>

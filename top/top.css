@@ -1,0 +1,1209 @@
+:root{
+  --ink:#0c305a;
+  --ink-2:#2e598f;
+  --bg:#f5f7fa;
+  --card:#ffffff;
+  --shadow:0 10px 30px rgba(0,0,0,0.08);
+  --radius:16px;
+}
+
+
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Noto Sans JP',sans-serif;
+  background:var(--bg);
+  color:#222;
+  overflow-x:hidden;
+}
+.video-section {
+  text-align: center;
+  background:var(--bg);
+  padding: 40px 0;
+}
+.video-section h1{
+  font-family:'Noto Serif JP',serif;
+  color:var(--ink);
+  font-size:2rem;
+  text-align:center;
+  margin:0 0 48px;
+}
+
+.video-section p {
+  font-family: "Noto Serif JP", serif;
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.demo-video {
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ======================
+   背景スライドショー
+====================== */
+.background-slideshow {
+  background:var(--bg);
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.background-slideshow img {
+  position: absolute;
+  background:var(--bg);
+  top: 20px;            
+  width: 100%;
+  height: calc(100% - 40px); 
+  object-fit: cover;
+  filter: blur(8px) brightness(0.8);
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.background-slideshow img.active {
+  opacity: 1;
+}
+.background-slideshow img::before,
+.background-slideshow img::after {
+  content: none !important;
+  display: none !important;
+}
+
+
+/* ======================
+   中央タイトル・説明
+====================== */
+.overlay-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  z-index: 5;
+}
+
+.overlay-center h1 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.8rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.overlay-center p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.overlay-center button {
+  padding: 0.9rem 2rem;
+  background: linear-gradient(135deg, #42a5f5, #5ec4ff);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(66,165,245,0.4);
+  transition: all 0.3s ease;
+}
+
+.overlay-center button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #1e88e5, #42a5f5);
+}
+
+
+/* ===== レイアウト（ヒーロー＋右サイド） ===== */
+main{
+  display:block;
+  min-height:100vh;
+}
+.hero{
+  display:none;
+}
+
+
+
+.login-box {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 3rem 2.5rem;
+  text-align: center;
+  align-items: center;
+  width: 420px;
+}
+
+.login-box h3 {
+  font-family: 'Noto Serif JP', serif !important;
+  font-weight: 600;                      
+  font-size: 1.6rem;                     
+  color: #0c305a;                       
+  letter-spacing: 0.05em;                
+  margin-bottom: 1.8rem;                 
+  text-align: center;                    
+}
+
+
+/* ===== スライド ===== */
+.slide-container{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+.slide-container img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:opacity 1.2s ease, filter 1.2s ease, transform 0.6s ease;
+  filter:blur(8px) brightness(1.15);
+  transform:scale(1.05);
+}
+.slide-container img.active{opacity:1}
+.hero.focused .slide-container img.active{
+  filter:blur(0) brightness(1);
+  transform:scale(1.0);
+}
+
+/* ===== 中央タイトル（初期中央→前面化で上へ） ===== */
+.hero-center{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  color:#fff;
+  z-index:3;
+   transition: all 0.8s ease;
+}
+.hero-center h1{
+  font-family:'Noto Serif JP',serif;
+  font-size:3rem;
+  letter-spacing:.04em;
+  margin:0 0 .5rem;
+  text-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+.hero-center h2{
+  font-family:'Noto Serif JP',serif;
+  font-size:1.2rem;
+  margin:0;
+  opacity:.95;
+  text-shadow:0 6px 24px rgba(0,0,0,.35);
+}
+
+
+
+
+body.focused main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* project-text は消える */
+body.focused #projectText {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+/* 画像ぼかし解除＆小さく配置 */
+.background-slideshow img {
+  filter: blur(8px) brightness(0.8);
+  transform: scale(1.05);
+  transition: all 1.2s ease;
+}
+
+
+body.focused .background-slideshow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 55vh;
+  margin-top: 160px;
+  overflow: hidden;
+  padding-left: 160px;
+  background: var(--bg);
+  box-sizing: border-box;
+}
+
+
+
+body.focused .background-slideshow img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.02);
+  width: 70vw;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  filter: blur(8px) brightness(0.9);
+  z-index: 1;
+  transition: none;
+}
+
+
+
+/* 新しい画像：右からスライドイン */
+body.focused .background-slideshow img.active {
+  animation: slideInRight 4s ease-in-out forwards;
+  z-index: 2;
+}
+
+/* 前の画像：左へ抜けていく */
+body.focused .background-slideshow img.previous {
+  animation: slideOutLeft 4s ease-in-out forwards;
+  z-index: 3;
+}
+
+
+
+/* 🩵 スライドイン：右から現れる */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translate(30%, -50%) scale(1.05);
+    filter: brightness(0.8);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.0);
+    filter: brightness(1);
+  }
+}
+
+/* 💨 スライドアウト：左へ流れる */
+@keyframes slideOutLeft {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-130%, -50%) scale(1.02);
+    filter: brightness(0.8);
+  }
+}
+
+
+/* タイトル左上位置を微調整（安全域） */
+/* タイトル群をクリック後に固定表示する */
+body.focused .hero-center {
+  position: absolute;
+  top: 40px;
+  left: 80px;
+  transform: translate(0, 0) scale(0.97);
+  text-align: left;
+  padding: 0.6rem 1.2rem;
+  box-shadow: none;
+  z-index: 999;
+  animation: heroLift 1.4s ease forwards;
+}
+
+body.focused .hero-center h1 {
+  font-size: 2.4rem;
+  color: var(--ink);
+  margin: 0;
+}
+
+body.focused .hero-center h2 {
+  font-size: 1.1rem;
+  color: var(--ink-2);
+  margin-top: 0.4rem;
+}
+@keyframes heroLift {
+  0% {
+    /* background: rgba(255, 255, 255, 0); */
+    backdrop-filter: blur(0px);
+    box-shadow: none;
+  }
+  60% {
+    /* background: rgba(255, 255, 255, 0.4); */
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+  100% {
+    /* background: rgba(255, 255, 255, 0.9); */
+    /* backdrop-filter: blur(10px); */
+    /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); */
+  }
+}
+
+/* 見出し色の自然な変化 */
+body.focused .hero-center h1 {
+  color: var(--ink);
+  transition: color 0.8s ease;
+}
+body.focused .hero-center h2 {
+  color: var(--ink-2);
+  transition: color 0.8s ease;
+}
+
+/* 作品タイトル（左下・透明背景） */
+body.focused .floating-title {
+  position: absolute;
+  bottom: 80px;
+  left: 80px;
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  color: var(--ink);
+  font-family: 'Noto Serif JP', serif;
+  font-size: 3rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  z-index: 3;
+}
+body.focused .floating-title {
+  position: absolute !important;
+  bottom: 150px !important;
+  left: 80px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* ==============================
+   🎬 作品タイトルアニメーション表示
+================================= */
+
+/* 初期状態：非表示 */
+#floatingTitle {
+  position: absolute;
+  bottom: 80px;
+  left: 80px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.6rem;
+  color: var(--ink);
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  visibility: hidden;
+  z-index: 5;
+}
+
+/* body.focusedのときにのみ表示 */
+body.focused #floatingTitle {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  animation: titleFadeIn 1.2s ease forwards;
+}
+
+/* アニメーション定義 */
+@keyframes titleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+body.focused #floatingTitle.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+
+/* ===============================
+   🎈 ヒント（tapHint / tap-hints）ぷかぷか演出
+================================= */
+
+/* 上部クリック誘導 */
+#tapHint {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  text-shadow: 0 0 8px rgba(255,255,255,0.8);
+  box-shadow: 0 0 16px rgba(255,255,255,0.3);
+  animation: floatHint 3.2s ease-in-out infinite alternate;
+  z-index: 4;
+}
+
+/* 下部スクロール誘導 */
+.tap-hints {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  box-shadow: 0 0 10px rgba(255,255,255,0.25);
+  animation: floatHint 2.8s ease-in-out infinite alternate;
+  z-index: 4;
+}
+
+/* ふわっと上下にゆれるキーフレーム */
+@keyframes floatHint {
+  0% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-8px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.9;
+  }
+}
+
+/* クリック後（focused）にhintを消す */
+body.focused #tapHint,
+body.focused .tap-hints {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+
+body.focused .tap-hints {
+  background: rgba(255, 255, 255, 0.9); /* 白ベースで落ち着いた印象 */
+  color: var(--ink);                     /* 紺色の文字 */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.05);
+  text-shadow: none;                     /* 光のにじみをなくす */
+  transition: all 0.6s ease;
+}
+
+
+
+
+/* ===== 説明文（前面化で白カード化） ===== */
+.project-text {
+  position: absolute;         /* ← 中央に配置するために absolute に変更 */
+  top: 65%;                   /* ← サブタイトルのすぐ下に配置（タイトル位置に合わせて微調整OK） */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;                 /* 文章の横幅（広すぎる場合は60%に） */
+  text-align: center;         /* 中央揃え */
+  z-index: 3;
+  color: #f4f6fb;
+  font-size: 1rem;
+  line-height: 1.9;
+  transition: all .6s ease;
+  
+  /* 🌟 光の演出 */
+  text-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.8),
+    0 0 16px rgba(150, 200, 255, 0.5),
+    0 0 32px rgba(100, 180, 255, 0.35);
+  animation: textGlow 3s ease-in-out infinite alternate;
+}
+
+/* ✨ 光がゆっくり強まったり弱まったりする */
+@keyframes textGlow {
+  0% {
+    text-shadow:
+      0 0 6px rgba(255, 255, 255, 0.6),
+      0 0 14px rgba(150, 200, 255, 0.4);
+  }
+  100% {
+    text-shadow:
+      0 0 12px rgba(255, 255, 255, 0.9),
+      0 0 30px rgba(120, 190, 255, 0.5);
+  }
+}
+
+.hero.focused .project-text{
+  background:rgba(255,255,255,.95);
+  color:#333;
+  padding:1rem 1.25rem;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* .tap-hints{
+  position:absolute;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:3;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  padding:.4rem .8rem;
+  border-radius:999px;
+  font-size:.9rem;
+  backdrop-filter:blur(6px);
+  transition:opacity .4s ease;
+} */
+
+.tap-hint{
+  position:absolute;
+  top:10px;              
+  left:50%;
+  transform:translateX(-50%);
+  z-index:3;
+  background:rgba(255,255,255,0.2);
+  color:#fff;
+  padding:.4rem .9rem;
+  border-radius:999px;
+  font-size:.95rem;
+  backdrop-filter:blur(8px);
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+  transition:opacity .4s ease;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; transform: translateX(-50%) translateY(0); }
+  50% { opacity: 0.4; transform: translateX(-50%) translateY(6px); }
+  100% { opacity: 0.8; transform: translateX(-50%) translateY(0); }
+}
+
+.hero.focused .tap-hint{opacity:0}
+
+
+
+/* ===== ナビボタン ===== */
+.nav-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  color:#fff;
+  border:none;
+  font-size:2.4rem;
+  cursor:pointer;
+  border-radius:50%;
+  width:64px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.28);
+  z-index:5;
+  transition:background .25s ease, transform .25s ease;
+}
+.nav-btn:hover{background:rgba(0,0,0,.45); transform:translateY(-50%) scale(1.08)}
+.nav-btn.prev{left:18px}
+.nav-btn.next{right:18px}
+
+
+
+h3{font-size:1.5rem;color:#333;margin:0 0 1rem}
+
+.note {
+  margin-top: 0.5rem !important;  /* 以前より小さく */
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  color: #888;
+  font-size: 0.9rem;
+  position: relative;
+  top: -10px;  /* ← これで少し上に上げる */
+}
+
+.create-btn-container{width:100%;max-width:420px}
+button{
+  border:none;
+  padding:12px 28px;
+  font-size:1rem;
+  border-radius:30px;
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  margin-bottom:1rem;
+  width:100%;
+}
+
+
+.guest-btn{
+  background:#fff;
+  color:#003366;
+  border:2px solid #003366;
+  box-shadow:0 3px 6px rgba(0,0,0,.08);
+  
+}
+
+#loginBtn{
+  background:#4285F4;color:#fff;
+  box-shadow:0 6px 16px rgba(66,133,244,.35);
+}
+#loginBtn:hover{transform:translateY(-2px)}
+input{
+  width:100%;
+  padding:12px 14px;
+  font-size:1rem;
+  border-radius:10px;
+  border:1px solid #ddd;
+  margin-bottom:.8rem;
+}
+input:focus{border-color:#42a5f5; outline:none; background:#f0f8ff}
+.divider{margin:12px 0 18px; color:#888}
+
+/* ===== コラージュ下の制作促しセクション ===== */
+.create-box {
+  background:var(--bg);     /* 白背景なし */
+  text-align: center;               /* 中央寄せ */
+  padding: 2.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.create-box h1{
+  font-family:'Noto Serif JP',serif;
+  color:var(--ink);
+  font-size:2rem;
+  text-align:center;
+  margin:0 0 48px;
+}
+
+/* 🎯 横並び用の親 */
+.button-with-bubbles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;           /* 吹き出しとボタンの間隔 */
+  flex-wrap: nowrap;   /* ✅ 強制的に横一列 */
+}
+
+/* 中央ボタンエリア */
+.create-btn-container {
+  width: 320px;
+  text-align: center;
+}
+
+/* =============================
+   吹き出し本体
+============================= */
+.fukidashi {
+  position: relative;
+  width: 500px;   /* ✅ 大きく表示 */
+  height: 450px;  /* ✅ 縦も拡大 */
+  background: url("./images/fukidashi.png") no-repeat center/contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.8rem 2.2rem 2.6rem;
+  font-size: 1rem;
+  color: #0c305a;
+  line-height: 1.7;
+  font-family: "Noto Sans JP", sans-serif;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  animation: floatBubble 4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* 💬 左右の高さ調整 */
+.fukidashi.left {
+  --offset: -100px;
+  --scale: 1; /* 通常 */
+}
+
+/* ===== 右吹き出し（画像＋テキスト両方反転） ===== */
+.fukidashi.right {
+  --offset: -240px;
+  --scale: -1; /* 反転 */
+}
+
+/* ⚠️ テキストは反転解除しない */
+.fukidashi.right p {
+  transform: scaleX(-1);
+}
+
+/* =============================
+   ぷかぷかアニメーション（変数対応版）
+============================= */
+@keyframes floatBubble {
+  0%, 100% {
+    transform: scaleX(var(--scale, 1)) translateY(var(--offset, 0));
+  }
+  50% {
+    transform: scaleX(var(--scale, 1)) translateY(calc(var(--offset, 0) - 10px));
+  }
+}
+
+
+
+/* ===== ボタン ===== */
+.create-btn,
+.guest-btn {
+  border: none;
+  padding: 14px 36px;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.create-btn {
+  background: linear-gradient(135deg, #f57542, #ed6c0a);
+  border: 2px solid #de4b01;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(66, 165, 245, 0.35);
+}
+.create-btn:hover {
+  transform: translateY(-2px);
+}
+
+.guest-btn {
+  background: #fff;
+  color: #003366;
+  border: 2px solid #003366;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+.guest-btn:hover {
+  background: #003366;
+  color: #fff;
+}
+
+.divider { margin: 10px 0 18px; color: #666; }
+.note { font-size: 0.85rem; color: #666; }
+
+/* =============================
+   スマホでは縦配置
+============================= */
+@media (max-width: 768px) {
+  .button-with-bubbles {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .fukidashi {
+    width: 260px;
+    height: 200px;
+  }
+}
+
+/* ===== ギャラリー（3×2の6分割グリッドの思想で、PCは2段分） ===== */
+.gallery{
+  background:var(--bg);
+  padding:72px 5vw 100px;
+}
+
+.gallery h1{
+  font-family:'Noto Serif JP',serif;
+  color:var(--ink);
+  font-size:2rem;
+  text-align:center;
+  margin:0 0 48px;
+}
+.gallery h2{
+  font-family:'Noto Serif JP',serif;
+  color:var(--ink);
+  font-size:1.5rem;
+  text-align:center;
+  margin:0 0 24px;
+}
+.work{
+  display:grid;
+  grid-template-columns: repeat(6, 1fr); /* PC想定の「3×2」の6等分グリッド幅を意識 */
+  gap:22px;
+  align-items:center;
+  margin:0 auto 64px;
+  max-width:1200px;
+}
+.work .work-image img{
+  width:100%; height:100%; object-fit:cover; border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.work .work-info{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.work .work-info h3{
+  margin:0 0 10px;
+  font-family:'Noto Serif JP',serif;
+  color:var(--ink);
+  font-size:1.25rem;
+}
+.work .work-info ul{margin:.2rem 0 1rem; padding-left:1.1rem}
+.work .work-info li{margin:.25rem 0}
+.work .cta{
+  display:inline-block;
+  padding:.6rem 1rem;
+  border-radius:999px;
+  background:linear-gradient(135deg,#1e88e5,#42a5f5);
+  color:#fff; text-decoration:none;
+  box-shadow:0 8px 20px rgba(66,165,245,.3);
+}
+.work-left .work-image{grid-column:1 / span 3}
+.work-left .work-info{grid-column:4 / span 3}
+.work-right .work-info{grid-column:1 / span 3}
+.work-right .work-image{grid-column:4 / span 3}
+
+/* ===== 下部ボタン群 ===== */
+.bottom-actions{
+  max-width:980px;
+  margin:6px auto 0;
+  display:flex; flex-direction:column; gap:14px;
+}
+.bottom-actions .row{
+  display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap;
+}
+.bottom-actions .row.single{justify-content:center}
+.btn{
+  display:inline-block; text-align:center; text-decoration:none;
+  padding:.9rem 1.6rem; border-radius:999px; font-weight:700; min-width:200px;
+}
+.btn.primary{background:#1463f6; color:#fff}
+.btn.outline{background:#fff; color:#1463f6; border:2px solid #1463f6}
+.btn.google{background:#4285F4; color:#fff}
+
+/* ===== ポップアップ ===== */
+.popup{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.45);
+  display:none; align-items:center; justify-content:center;
+  z-index:999;
+}
+
+.popup.hidden {
+  display: none;
+}
+.popup.show{display:flex}
+
+.popup-content{
+  background:#fff;
+  padding:2rem;
+  border-radius:16px;
+  width:calc(100% - 40px);
+  max-width:420px;
+  text-align:center;
+  box-shadow:0 18px 40px rgba(0,0,0,.25);
+}
+.popup-content p{font-size:1rem; margin:0 0 1.2rem}
+.popup-content button{
+  width:100%; height:44px; margin:8px 0;
+  border-radius:10px;
+}
+#welcomeMsg {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #2c6e49;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  animation: fadeOut 3s ease forwards;
+}
+@keyframes fadeOut {
+  0% {opacity: 1;}
+  80% {opacity: 1;}
+  100% {opacity: 0;}
+}
+
+#withAccount,#goCreateAccount{background:#42a5f5; color:#fff}
+#withoutAccount,#proceedGuest{background:#e0e0e0; color:#333}
+.close-popup{background:#999; color:#fff; margin-top:.25rem}
+.popup-btn-row{display:flex; gap:.75rem}
+
+.login-section {
+  background: #fffdf9;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===============================
+   下部エリア（マップ＋ログイン横並び）
+================================= */
+.bottom-area {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 60px;
+  padding: 100px 5vw;
+  background: var(--bg);
+}
+
+/* 左側：マップボックス */
+.map-box {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+
+.map-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+
+.map-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.map-box h3 {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--ink);
+  font-size: 1.4rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.map-box .highlight {
+  color: #1e88e5;
+  font-weight: 700;
+}
+
+/* 高さをログインボックスと合わせる */
+.login-box,
+.map-box {
+  flex: 1 1 0;
+  height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================
+   🎈 作品ボタンぷかぷかアニメーション
+============================ */
+@keyframes floatButton {
+  0% {
+    transform: translateY(0);
+    box-shadow: 0 8px 20px rgba(66, 165, 245, 0.3);
+  }
+  50% {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(66, 165, 245, 0.4);
+  }
+  100% {
+    transform: translateY(0);
+    box-shadow: 0 8px 20px rgba(66, 165, 245, 0.3);
+  }
+}
+
+/* 🎨 特にユーザーの注意を引く2つのボタンに付与 */
+#createBtn,
+#guestBtn {
+  animation: floatButton 3.2s ease-in-out infinite;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, filter 0.3s ease-out;
+  transform-origin: center;
+}
+
+#createBtn:hover {
+  transform: translateY(-4px) scale(1.2) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25) !important;
+  filter: brightness(1.15) !important;
+}
+
+
+
+/* ======================
+   固定ヘッダー
+====================== */
+#mainHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  z-index: 1000;
+}
+
+#mainHeader.header-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-left .header-title {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--ink);
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  gap: 1rem;
+}
+
+.header-btn {
+  padding: 10px 22px;
+  border-radius: 24px;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-btn.create {
+  background: linear-gradient(135deg, #f57542, #ed6c0a);
+  color: white;
+}
+
+.header-btn.map {
+  background: white;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+}
+
+.header-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.header-btn.highlight-btn {
+  background: linear-gradient(135deg, #f57542, #ed6c0a);
+  color:#2e598f !important;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(245, 117, 66, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.header-btn.highlight-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(237, 108, 10, 0.4);
+}
+
+
+/* ===== ナビゲーション矢印を完全に非表示 ===== */
+#nextBtn,
+#prevBtn,
+.nav-btn {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 1100px){
+  main{flex-direction:column}
+  .hero{height:60vh; flex:none}
+  .login-box{flex:none; height:auto; padding:2rem 1.5rem; box-shadow:none}
+  .project-text{left:20px; right:20px; bottom:70px}
+  .caption{max-width:86%}
+  .floating-title{top:66vh}
+}
+@media (max-width: 720px){
+  .hero-center h1{font-size:2.1rem}
+  .hero-center h2{font-size:1rem}
+  .nav-btn{width:56px; height:56px; font-size:2.1rem}
+  .work{grid-template-columns:1fr; gap:16px}
+  .work-left .work-image,
+  .work-left .work-info,
+  .work-right .work-image,
+  .work-right .work-info{grid-column:auto}
+}
+
+/* ===============================
+   🔹 ログイン後のヘッダーナビ整列
+================================== */
+#userNav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;               /* ボタン間の余白 */
+  justify-content: flex-end; /* 右寄せ配置 */
+}
+
+#userNav .header-user {
+  display: flex;
+  align-items: center;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 1rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+#userNav .header-btn {
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#userNav .header-btn:hover {
+  color: #1e88e5;
+  text-decoration: underline;
+}
+
+/* 🔹 最終上書き：ログアウトを極小リンク風に */
+#userNav .header-btn.logout {
+  all: unset;                   /* ← 既存のpaddingやborderを完全リセット */
+  display: inline;
+  color: #1a4a9c;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+#userNav .header-btn.logout:hover {
+  color: #002f75;
+}
+
+
+/* 親要素での整列 */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

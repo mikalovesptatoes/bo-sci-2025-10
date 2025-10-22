@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>学区コミュニティ | 作品マップ × 協作</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- ArcGIS JS API -->
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.29/"></script>
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="gp.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="hex"></div>
+      <div class="brand-text">
+        <div class="brand-sub">防災 × 市民科学 × アート</div>
+        <div class="brand-main">ご近所さんアートチャット</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="district-badge" id="districtLabel">学区：<span id="districtName">（未設定）</span></div>
+      <button id="makeTogetherBtn" class="btn btn-primary">🌟 みんなでつくる</button>
+      <div class="account">
+        <div class="avatar" id="avatar">P</div>
+        <div class="account-meta">
+          <div id="displayName" class="account-name">Guestさん</div>
+          <div class="pill">ログイン中</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout -->
+  <main class="layout">
+    <!-- Left: Map -->
+    <section class="map-card">
+      <div id="viewDiv" role="application" aria-label="学区マップ"></div>
+
+      <!-- Map overlay for floating bubbles -->
+      <div id="bubbleLayer" class="bubble-layer" aria-hidden="true"></div>
+
+      <!-- Legend / hints -->
+      <div class="map-legend">
+        <span class="swatch"></span> 作品の位置（コメントはシャボン玉で表示されます）
+      </div>
+    </section>
+
+    <!-- Right: Carousel + Comment box -->
+    <aside class="right-panel">
+      <div class="right-head">
+        <h2>地域の作品集</h2>
+        <div class="hint">地域の方の作品にコメントを送ったり、<br>魅力的だと思った制作者さんに「協作リクエスト」ができます！</div>
+        </div>
+      </div>
+
+      <!-- Mario Kart style roll (horizontal) -->
+      <div id="carousel" class="carousel-vertical">
+  <div id="carouselTrack" class="carousel-track-vertical">
+    <!-- cards injected -->
+  </div>
+</div>
+　　　<!-- Selection info -->
+      <div id="selectionInfo" class="selection-info">
+        <span class="small">選択中：</span>
+        <span id="selectedTitle" class="selection-title">（読み込み中）</span>
+      </div>
+
+      <!-- Comment box -->
+      <div class="comment-box">
+        <h3>💬 コメントを送る</h3>
+        <div class="small">選択中の作品へコメントが送られます。</div>
+        <textarea id="commentInput" placeholder="作品の感想や共感ポイント、気づいたこと等を気軽にどうぞ。"></textarea>
+        <div class="comment-actions">
+          <label class="small"><input type="checkbox" id="commentAnon" checked> 匿名で送信</label>
+          <button id="sendCommentBtn" class="btn btn-primary">コメントを送信する</button>
+        </div>
+      </div>
+
+    
+    </aside>
+  </main>
+
+  <!-- Artwork popup (modal) -->
+  <dialog id="artDialog" class="art-dialog">
+    <div class="art-dialog-head">
+      <div id="artDialogTitle" class="art-title">作品タイトル</div>
+      <button id="artDialogClose" class="icon-btn" aria-label="閉じる">✕</button>
+    </div>
+    <div class="art-dialog-body">
+      <img id="artDialogImage" class="art-image" alt="作品画像">
+      <div id="artDialogDesc" class="art-desc">説明</div>
+    </div>
+    <div class="art-dialog-actions">
+      <button id="requestCollabBtn" class="btn">🤝 協作をリクエスト</button>
+    </div>
+  </dialog>
+
+  <!-- Collaboration confirmation -->
+  <dialog id="confirmDialog" class="confirm-dialog">
+    <div class="confirm-body">
+      <div class="confirm-title">協作リクエスト</div>
+      <div id="confirmText" class="confirm-text">リクエストを送信して、一緒に作品制作をしますか？</div>
+    </div>
+    <div class="confirm-actions">
+      <button id="confirmCancel" class="btn btn-ghost">キャンセル</button>
+      <button id="confirmOk" class="btn btn-primary">送信する</button>
+    </div>
+  </dialog>
+
+  <a href="../top/top.html" class="back-to-top">トップページに戻る</a>
+
+  <!-- App JS -->
+  <script type="module" src="gp.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>作品タイトルの決定・作品のアップロード</title>
+
+<script>
+  // ▼ このページはパネル（説明オーバーレイ）を使わない
+  window.WS_STEP = {
+    index: 5,
+    total: 6,
+    title: '作品の登録（タイトル・画像・制作者名）',
+    mission: null,          // ← ミッションを表示しない（ヘッダーの「説明」も消えるようにする）
+    next: '../present/index.html',
+    // surveyUrl はここでは使わない（iframe直埋めのため）
+    // surveyOpenMode も不要
+
+    // ▼ タイマー設定（ページごとに変えるのは minutes だけでOK）
+    timer: {
+      minutes: 5,         // ← 目安時間（分）
+      mode: 'down',        // 'down' or 'up'
+      autostart: true,
+      showClock: true,
+      showBar: true,
+      showControls: true,  // ▶ ⏸ ↺ ボタンを出す
+      warnAtSec: 120       // 残り120秒で色を警告色に（任意）
+    }
+  };
+</script>
+
+<link rel="stylesheet" href="../common/styles.css" />
+<style>
+  /* ページ内ガイダンス用の軽い装飾 */
+  .card h3 { margin: .6em 0 .3em; }
+  .lead { margin: 0 0 8px; opacity: .9; }
+  .checklist { margin: .2em 0 0 1.2em; }
+  .checklist li { margin: .25em 0; }
+  .muted { font-size: .9rem; opacity: .8; }
+
+  /* Survey123 iframe */
+  iframe.survey123 {
+    width: 100%;
+    height: 78vh; /* 画面にフィット */
+    border: none;
+    border-radius: 10px;
+    background: #fff;
+  }
+</style>
+</head>
+
+<body>
+<script src="../common/nav.js" defer></script>
+
+<main class="stage page">
+  <!-- 1) ページ内に完結した説明を記載 -->
+  <div class="card">
+    <h2>提出</h2>
+    <p class="lead">このページで、作品タイトル（メッセージ）・作品画像・制作者名を提出します。</p>
+
+    <h3>ミッション</h3>
+    <ol class="checklist">
+      <li><strong>誰に</strong>、<strong>どのような思い</strong>を伝えたいかを考えて、
+        「<strong>メッセージ（作品タイトル）</strong>」にまとめる。</li>
+      <li>マーブリング＋コラージュで制作した作品の
+        <strong>スクリーンショット画像</strong>を用意する。</li>
+      <li><strong>制作者名</strong>（ペンネーム可）を記入する。</li>
+    </ol>
+
+    <h3>防災ワークシートでの入力（設問ガイド）</h3>
+    <ul class="checklist">
+      <li><strong>設問6</strong>：この作品を「誰に」、どんな思いを伝えたいか。<br>
+      <li><strong>設問7</strong>：作品画像をアップロード（端末の「写真」フォルダから選択）</li>
+      <li><strong>設問8</strong>：制作者名（ペンネーム可）</li>
+    </ul>
+
+    <p class="muted">※ 画像は明るさ・傾きなど軽微な調整OKです。文字入れ等の大きな加工は不可。</p>
+  </div>
+
+  <!-- 2) Survey123 フォームを直埋め -->
+  <div class="card">
+    <h3>提出フォーム</h3>
+    <iframe
+      class="survey123"
+      src="https://survey123.arcgis.com/share/cff62fc5070c4f468b2c9269d5b2535f"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</main>
+</body>
+</html>

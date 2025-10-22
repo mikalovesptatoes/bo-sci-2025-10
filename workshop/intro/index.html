@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ワークショップ導入スライド（Vanilla JS）</title>
+  <!-- 1ファイル完結版。Reactやビルド不要。VSCodeのLive Serverで開けばOK -->
+  <style>
+    :root{
+      --green-50:#f0fdf4; --green-100:#dcfce7; --green-200:#bbf7d0; --green-600:#16a34a; --green-700:#15803d; --green-800:#166534;
+      --text:#374151; --muted:#64748b; --panel:#ffffff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif;
+      color:var(--text); background:linear-gradient(135deg, var(--green-100), #fff 40%, var(--green-200));
+      display:flex; align-items:center; justify-content:center; min-height:100dvh; overflow:hidden;
+    }
+    .wrap{ position:relative; width:100%; height:100svh; display:flex; align-items:center; justify-content:center; }
+    .slide{
+      width:min(920px, 92vw);
+      max-height: calc(100dvh - 140px);  /* ← 画面下のボタン分を差し引く */
+      overflow:auto; background:var(--panel);
+      border-radius:24px; padding:48px 40px 72px; /* ← 下余白を足す（重なり回避） */
+      box-shadow:0 20px 60px rgba(0,0,0,.08);
+      text-align:center;
+    }
+    h1{ font-size: clamp(28px, 4.2vw, 40px); color:var(--green-800); margin:.2em 0 .2em}
+    h2{ font-size: clamp(16px, 2.2vw, 20px); color:#0e9f6e; margin:0 0 18px}
+    p, li{ font-size: clamp(15px, 2.2vw, 18px); line-height:1.8 }
+    ul{ text-align:left; display:inline-block }
+
+    /* --- Controls --- */
+    .controls{
+      position:fixed;                       /* ← absolute から fixed */
+      left:50%;
+      bottom:max(12px, env(safe-area-inset-bottom) + 12px); /* ← iPad下部バーを避ける */
+      transform:translateX(-50%);
+      display:flex; gap:12px; align-items:center;
+      z-index:1000;                         /* ← ボタンを最前面に */
+    }
+    button.btn{
+      appearance:none; border:1px solid #e5e7eb; background:#fff; color:#111827; border-radius:12px;
+      padding:10px 16px; font-weight:600; cursor:pointer; transition:transform .08s ease, background .2s;
+    }
+    button.btn[disabled]{ opacity:.5; cursor:not-allowed }
+    .btn-primary{ background:var(--green-600); color:#fff; border-color:transparent }
+    .btn-primary:hover{ background:var(--green-700) }
+    .btn:hover{ transform:translateY(-1px) }
+
+    /* Dots */
+    .dots{ display:flex; gap:8px; align-items:center }
+    .dot{ width:8px; height:8px; border-radius:999px; background:#94a3b8; opacity:.6 }
+    .dot.active{ width:20px; background:var(--green-600); opacity:1 }
+
+    /* --- Animations (enter/exit) --- */
+    .anim-enter{ opacity:0; transform:translateY(24px) }
+    .anim-enter-active{ opacity:1; transform:translateY(0); transition:opacity .45s ease, transform .45s ease }
+    .anim-exit{ opacity:1; transform:translateY(0) }
+    .anim-exit-active{ opacity:0; transform:translateY(-24px); transition:opacity .35s ease, transform .35s ease }
+
+    /* Scrollbars (for long content) */
+    .slide::-webkit-scrollbar{ width:10px }
+    .slide::-webkit-scrollbar-thumb{ background:#e5e7eb; border-radius:999px }
+
+    /* --- PPT風：四隅キーワード演出 --- */
+    .pp {
+      position: relative; max-width: 840px; margin: 0 auto; padding: 8px 8px 56px;
+    }
+    .pp-figure {
+      position: relative; aspect-ratio: 16/9; background: #fff;
+      border: 1px solid #e5e7eb; border-radius: 18px; overflow: hidden;
+      box-shadow: inset 0 0 0 4px #f8fafc;
+    }
+    .pp-q {
+      position: absolute; inset: 12% 8% 12% 8%;
+      display: grid; place-items: center; text-align: center;
+      font-weight: 700; font-size: clamp(20px, 2.6vw, 28px);
+      color: #111827;
+      opacity: 0; transform: translateY(8px); transition: .5s ease;
+    }
+    .pp-k {
+      position: absolute; padding: .6em .9em; background: #fff;
+      border: 1px solid #e5e7eb; border-radius: 12px; font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0,0,0,.06);
+      opacity: 0; transform: translateY(8px) scale(.98); transition: .6s ease;
+      font-size: clamp(13px, 2vw, 16px);
+    }
+    .pp-k.tl { left: 16px;  top: 16px;  }
+    .pp-k.tr { right: 16px; top: 16px;  }
+    .pp-k.bl { left: 16px;  bottom: 16px;}
+    .pp-k.br { right: 16px; bottom: 16px;}
+
+    .pp-final {
+      margin-top: 18px; font-weight: 800; letter-spacing: .02em;
+      color: #dc2626; font-size: clamp(18px, 2.4vw, 22px); text-align: center;
+      opacity: 0; transform: translateY(6px); transition: .6s ease;
+    }
+    .pp .show { opacity: 1; transform: none; }
+
+    /* 画面が縦長のときは高さを少し確保 */
+    @media (max-width: 640px) {
+      .pp-figure { aspect-ratio: 3/2; }
+      .slide { max-height: calc(100dvh - 160px); } /* 小画面は余裕を少し増やす */
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main id="slide" class="slide" aria-live="polite" aria-atomic="true"></main>
+
+    <div class="controls">
+      <button id="prev" class="btn" aria-label="前のスライド">戻る</button>
+      <div id="dots" class="dots" aria-hidden="true"></div>
+      <button id="next" class="btn btn-primary" aria-label="次のスライド">次へ</button>
+    </div>
+  </div>
+
+  <script>
+    const NEXT_URL = "/workshop/map/index.html";
+
+    // React版のデータをVanilla JSに移植
+    const slides = [
+      {
+        id: 1,
+        title: "防災 × 市民科学 × アート",
+        subtitle: "ワークショップ概要",
+        html: `
+          <p class="mt">このワークショップでは、防災・市民科学・アートを融合させ、地域の安全を考える新しい形を体験します。</p>
+          <p class="mt">2時間の流れを通じて、ハザードマップの理解からアート作品制作を行います。</p>
+        `
+      },
+      {
+        id: 2,
+        title: "防災とは？",
+        subtitle: "災害に備えるために",
+        html: `
+          <p class="mt">災害の知識や避難行動を学ぶことに加え、自分や地域の状況を理解することが重要です。</p>
+          <p class="mt">防災を “わがこと” として考えるきっかけをつくりましょう。</p>
+        `
+      },
+      {
+        id: 3,
+        title: "市民科学とは？",
+        subtitle: "専門家と市民が協力して取り組む研究",
+        html: `
+          <p class="mt">市民科学は、研究者と市民が共にデータを収集・分析し、社会課題を解決していく参加型の取り組みです。</p>
+          <p class="mt">本ワークショップでは、防災を市民科学の視点から捉えます。</p>
+        `
+      },
+      {
+        id: 4,
+        title: "アートで表現する",
+        subtitle: "マーブリングとコラージュ",
+        html: `
+          <p class="mt">マーブリングで “災害リスク” を、コラージュで “防災行動” を表現します。</p>
+          <p class="mt">創造的な表現を通じて、地域の危険性と自分の行動を見つめ直し、地域に貢献しましょう。</p>
+        `
+      },
+      {
+        id: 5,
+        title: "本日の流れ",
+        subtitle: "2時間で体験するステップ",
+        html: `
+          <ul class="list">
+            <li>ハザードマップの読み取りと地点選定（15分）</li>
+            <li>マーブリング作品制作（15分）</li>
+            <li>コラージュ制作（15分）</li>
+            <li>作品説明文作成（5分）</li>
+            <li>作品提出と鑑賞（10分）</li>
+            <p class="mt"><strong>各セクションで「ミッション」を確認し、完了状態を目指しましょう！</strong></p>
+          </ul>
+        `
+      },
+    ];
+
+    // 要素参照
+    const $slide = document.getElementById('slide');
+    const $prev = document.getElementById('prev');
+    const $next = document.getElementById('next');
+    const $dots = document.getElementById('dots');
+
+    let index = 0; // 現在のスライド
+
+    // ドット生成
+    function renderDots(){
+      $dots.innerHTML = slides.map((_,i)=>`<div class="dot ${i===index?'active':''}" data-i="${i}"></div>`).join('');
+    }
+
+    // スライド本体描画 + 疑似トランジション
+    let animing = false;
+    function renderSlide(nextIndex = index){
+      if (animing) return; animing = true;
+
+      // 退場アニメ
+      $slide.classList.remove('anim-enter','anim-enter-active');
+      $slide.classList.add('anim-exit');
+      // 強制reflowでtransitionを効かせる
+      void $slide.offsetWidth;
+      $slide.classList.add('anim-exit-active');
+
+      // 退場後に中身を差し替え
+      setTimeout(()=>{
+        index = nextIndex;
+        const s = slides[index];
+        $slide.innerHTML = `
+          <h1>${s.title}</h1>
+          <h2>${s.subtitle}</h2>
+          <div>${s.html}</div>
+        `;
+        renderDots();
+
+        // 入場アニメ
+        $slide.classList.remove('anim-exit','anim-exit-active');
+        $slide.classList.add('anim-enter');
+        void $slide.offsetWidth;
+        $slide.classList.add('anim-enter-active');
+
+        // ボタン状態
+        $prev.disabled = (index===0);
+        $next.textContent = (index < slides.length-1) ? '次へ' : 'ワークショップを始める ▶';
+        $next.classList.toggle('btn-primary', true);
+
+        animing = false;
+      }, 280); // 退場の長さに合わせる
+    }
+
+    // 初期描画
+    $slide.classList.add('anim-enter');
+    $slide.innerHTML = `<h1></h1><h2></h2>`; // 一瞬のチラつき防止
+    renderSlide(0);
+
+    // クリック・キーボード操作
+    $prev.addEventListener('click', ()=>{ if(index>0) renderSlide(index-1) });
+    $next.addEventListener('click', ()=>{
+      if(index < slides.length-1){ renderSlide(index+1); }
+      else { location.href = NEXT_URL; }
+    });
+
+    // ドットクリック
+    $dots.addEventListener('click', (e)=>{
+      const t = e.target; if(!t.classList.contains('dot')) return;
+      const i = Number(t.getAttribute('data-i'));
+      if(!Number.isNaN(i)) renderSlide(i);
+    });
+
+    // キーボード: ← → Enter/Space
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='ArrowRight' || e.key===' ' || e.key==='Enter'){
+        e.preventDefault(); $next.click();
+      } else if(e.key==='ArrowLeft'){
+        e.preventDefault(); $prev.click();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>作品詳細</title>
+  
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+  <link rel="stylesheet" href="detail_style.css">
+</head>
+<body>
+
+  <div class="page-container">
+    <h1 class="instruction-title highlight-title"></h1>
+    <div class="content-container">  
+        <div class="column left-column">
+          <div id="artwork-info" class="artwork-info"></div>
+          <div class="art-panel">
+            <img id="art-image" src="" alt="アート作品">
+          </div>
+        </div>
+        <div class="column right-column">
+        <div class="map-panel">
+          <div id="surrounding-map"></div>
+          <div id="filter-widget">
+          </div>
+        </div>
+          <div class="interaction-panel">
+            <div class="map-guide-panel">
+              <div class="step-guide">
+                <p>💡 次のステップに進むには<br>
+                右上の『表示するハザードマップ』 のチェックをすべて押して、危険を確認しましょう。
+                </p>
+              </div>
+              <h4>ハザードマップって何？</h4>
+              <p>ハザードマップは、もし大きな災害が起きたら『どんな危険が起こるか』を教えてくれる『<b>未来の危険予報図</b>』です。</p>
+              <p id="hazard-type-intro">このアート作品は、この予報図に示された危険をテーマに作られています。</p>
+              <hr>
+              <h4>地図の「色」と「凡例」の見方</h4>
+              <p>地図では、<b>色が濃いほど危険が大きい</b>ことを示しています。下の『凡例』と見比べて、作品の周りが何色になっているか見てみましょう。</p>
+              <div id="legend-container"></div>
+            </div>
+          </div>
+
+          <div class="button-wrapper">
+            <button id="back-to-top-button" class="nav-button btn-secondary">トップに戻る</button>
+            <button id="next-button" class="nav-button btn-primary">次へ→</button>
+          </div>
+        </div>
+      </div>
+
+  </div> 
+
+  <script src="https://js.arcgis.com/4.29/"></script>
+  <script src="detail_script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* --- 基本設定 --- */
+body, html {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#viewDiv {
+  height: 100%;
+  width: 100%;
+}
+
+/* --- ポップアップのスタイル --- */
+/* 縦幅の上限をなくす */
+.esri-popup__main-container {
+  max-height: none !important;
+}
+
+/* 内部の余白を調整してスリムにする */
+.esri-popup__content {
+  margin: 0;
+  padding: 8px; /* 少し余白を持たせる */
+}
+
+/* ポップアップ全体の入れ物 */
+.popup-content-vertical {
+  display: flex;
+  flex-direction: column; /* 要素を縦に並べる */
+  align-items: center;   /* 中央揃えにする */
+  gap: 8px;              /* 各要素の間の隙間 */
+}
+
+/* 作者名 */
+.popup-author {
+  margin: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* 作品の画像 */
+.popup-image-vertical {
+  width: 240px; 
+  height: 180px; 
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* --- 操作パネルのスタイル --- */
+#control-panel {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+  width: 380px;
+  max-height: calc(100vh - 40px); /* 画面の高さを超えないように調整 */
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content {
+  padding: 0 10px 10px 10px;
+  overflow-y: auto; /* 中身がはみ出たらスクロール */
+}
+
+#control-panel h3 {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  font-size: 1em;
+  text-align: center;
+}
+
+/* フィルターの各行 */
+.filter-option {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between; /* 両端に寄せる */
+  align-items: center;
+  padding: 0 10px; /* 左右に少し余白を追加 */
+}
+
+/* 重ね順変更ボタン */
+.reorder-buttons {
+  display: flex;
+  gap: 5px; /* ボタン間の隙間 */
+}
+
+.reorder-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.7em;
+  line-height: 1; /* 文字の高さをボタンに合わせる */
+  padding: 4px 6px;
+}
+
+.reorder-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* --- 凡例のスタイル --- */
+.esri-legend.esri-widget {
+  max-height: 250px !important;
+  overflow-y: auto !important; 
+}
+
+/* --- ベースマップ切り替えボタンのスタイル --- */
+#basemap-toggle {
+  position: absolute;
+  bottom: 25px;
+  left: 15px;
+  z-index: 10;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  padding: 4px;
+}
+
+.basemap-btn {
+  padding: 6px 12px;
+  font-size: 0.9em;
+  border: none;
+  background-color: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* 選択されているボタンのスタイル */
+.basemap-btn.active {
+  background-color: #0079c1;
+  color: white;
+  font-weight: bold;
+}

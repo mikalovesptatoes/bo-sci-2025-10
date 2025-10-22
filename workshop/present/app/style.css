@@ -1,0 +1,284 @@
+/* ページ全体の余白をなくす */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* htmlとbodyを画面全体に広げる */
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+/* 地図を表示するdiv要素を画面全体に広げる */
+#viewDiv {
+  height: 100%;
+  width: 100%;
+}
+
+/* ポップアップの縦幅の上限をなくす*/
+.esri-popup__main-container {
+  max-height: none !important;
+}
+
+/* --- ポップアップ用のスタイル（縦型） --- */
+/* ポップアップ全体の入れ物 */
+.popup-content-vertical {
+  display: flex;
+  flex-direction: column; /* 要素を縦に並べる */
+  align-items: center;   /* 中央揃えにする */
+  gap: 8px;              /* 各要素の間の隙間 */
+}
+
+/* 作者名 */
+.popup-author {
+  margin: 0;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* 作品の画像 */
+.popup-image-vertical {
+  width: 240px; 
+  height: 180px; 
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* 詳細を見るボタン */
+.popup-prompt {
+  margin-top: 4px;
+  padding: 8px;
+  font-size: 0.9em;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  background-color: #FFEB3B;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box; /* paddingを含めて幅を計算 */
+}
+
+/* ポップアップの内部の余白を調整してスリムにする */
+.esri-popup__content {
+  margin: 0;
+  padding: 0px; /* 元々の余白より小さい値に設定 */
+}
+
+.popup-link {
+  text-decoration: none;
+}
+
+.popup-link:hover {
+  background-color: #FBC02D;
+}
+
+/* --- リンク用のスタイルを追加 --- */
+/* プロンプトのリンクの見た目を調整 */
+.popup-link {
+  display: block; /* ボタンのように振る舞わせる */
+  text-decoration: none; /* 下線を消す */
+  color: #333; /* 元の文字色と同じにする */
+}
+
+/* リンクにカーソルが乗った時に少し色を変える（任意） */
+.popup-link:hover {
+  background-color: #FBC02D; /* 背景色を少し濃くする */
+}
+
+/* チェックボックス */
+/* タブ全体を囲むパネル */
+#control-panel {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 10;
+  width: 380px;
+  /* 画面の高さを超えないように調整 */
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* タブボタンのエリア */
+.tab-buttons {
+  display: flex;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+/* 個別のタブボタン */
+.tab-button {
+  flex: 1; /* ボタンの幅を均等に */
+  padding: 8px;
+  font-size: 0.9em;
+  text-align: center;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0 3px;
+  transition: background-color 0.2s;
+}
+
+/* 選択されているタブボタンのスタイル */
+.tab-button.active {
+  background-color: #0079c1;
+  color: white;
+  font-weight: bold;
+}
+
+/* タブの中身（フィルターや凡例） */
+.tab-content {
+  padding: 0 10px 10px 10px;
+  overflow-y: auto; /* 中身がはみ出たらスクロール */
+}
+
+#control-panel h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #eee;
+  font-size: 1em;
+  text-align: center;
+}
+
+/* 凡例が長くなった時にスクロールさせる */
+.esri-legend.esri-widget {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+.filter-option {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between; /* 両端に寄せる */
+  align-items: center;
+  padding: 0 10px; /* 左右に少し余白を追加 */
+}
+
+/* 防災資源リストのコンテナに適用するスタイル */
+#resource-filters {
+  overflow-y: auto; /* 中身がはみ出たらスクロール */
+}
+
+.guide{
+  font-size: 0.8em;
+  color: #666;
+  text-align:center;
+  margin-bottom: 12px;
+}
+
+.reorder-buttons {
+  display: flex;
+  gap: 5px; /* ボタン間の隙間 */
+}
+
+.reorder-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.7em;
+  line-height: 1; /* 文字の高さをボタンに合わせる */
+  padding: 4px 6px;
+}
+
+/* シンボル */
+/* 新しく作ったdivを横並びの土台にする */
+.symbol-and-label {
+  display: flex;       /* 要素を横に並べる */
+  align-items: center; /* 上下中央にそろえる */
+}
+
+/* シンボルの見た目を調整 */
+.symbol-preview {
+  margin-right: 8px; /* シンボルと文字の間に少し隙間をあける */
+  flex-shrink: 0;    /* コンテナが狭くなってもシンボルが縮まないようにする */
+}
+
+.reorder-button:hover {
+  background-color: #e0e0e0;
+}
+
+
+/* テーマ絞り込み */
+#theme-filters h3 {
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.theme-buttons {
+  display: flex;
+  flex-wrap: wrap; /* ボタンが多すぎたら折り返す */
+  gap: 6px; /* ボタン間の隙間 */
+}
+
+.theme-button {
+  padding: 4px 10px;
+  font-size: 0.9em;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.theme-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* 選択中のボタンのスタイル */
+.theme-button.active {
+  background-color: #0079c1;
+  color: white;
+  border-color: #0079c1;
+  font-weight: bold;
+}
+
+/* --- ベースマップ切り替えボタン --- */
+#basemap-toggle {
+  bottom: 25px;
+  left: 15px;
+  z-index: 10;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  padding: 8px;
+  position: fixed;
+  width: 180px; /* ボックス全体の幅を固定して広げる */
+}
+
+.basemap-title {
+  font-size: 0.9em;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 0 5px 0;
+}
+
+.basemap-buttons-container {
+  display: flex;
+  gap: 5px; /* ボタンの間に5pxの隙間を追加 */
+}
+
+.basemap-btn {
+  flex: 1;
+  padding: 6px 12px;
+  font-size: 0.9em;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* 選択されているボタンのスタイル */
+.basemap-btn.active {
+  background-color: #0079c1;
+  color: white;
+  font-weight: bold;
+}
+

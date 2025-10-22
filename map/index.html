@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ArcGIS JavaScript Map</title>
+  
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <div id="viewDiv"></div>
+
+  <div id="control-panel">
+
+    <div class="tab-buttons">
+      <button id="hazard-tab" class="tab-button active">ハザードマップ</button>
+      <button id="resource-tab" class="tab-button">防災資源</button>
+      <button id="theme-tab" class="tab-button">テーマ</button>
+    </div>
+
+    <div id="hazard-content" class="tab-content">
+      <div id="hazard-filters">
+        <h3>表示するハザードマップ</h3>
+        <p class="guide">矢印ボタンで複数のハザードマップの重ね順を調整できます。</p>
+         <div class="filter-option" data-layer-title="gaisui_clip">
+          <span><input type="checkbox" id="gaisui-filter"><label for="gaisui-filter">川の水があふれる洪水（外水氾濫）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="naisui_R7_clip">
+          <span><input type="checkbox" id="naisui_R7-filter"><label for="naisui_R7-filter">下水があふれる洪水（内水氾濫）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="kyukeisha_R7_clip">
+          <span><input type="checkbox" id="kyukeisha_R7-filter"><label for="kyukeisha_R7-filter">土砂災害</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="takashio_clip">
+          <span><input type="checkbox" id="takashio-filter"><label for="takashio-filter">高潮（浸水深）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="tsunami_clip">
+          <span><input type="checkbox" id="tsunami-filter"><label for="tsunami-filter">津波（浸水深、慶長型地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="jishindo_clip">
+          <span><input type="checkbox" id="jishindo-filter"><label for="jishindo-filter">震度情報（元禄型関東地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="shoshitsu_clip">
+          <span><input type="checkbox" id="shoshitsu-filter"><label for="shoshitsu-filter">地震火災（元禄型関東地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="ekijyouka_clip">
+          <span><input type="checkbox" id="ekijyouka-filter"><label for="ekijyouka-filter">地盤の液状化（元禄型関東地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div id="resource-content" class="tab-content" style="display: none;">
+  <div id="resource-filters">
+    <h3>表示する防災資源</h3>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="TIIKIBOSAIKYOTEN-filter"><label for="TIIKIBOSAIKYOTEN-filter">地域防災拠点</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="koen-point-filter"><label for="koen-point-filter">公園</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="toilet-filter"><label for="toilet-filter">公衆トイレ</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="hamakkotoilet-filter"><label for="hamakkotoilet-filter">災害用ハマッコトイレ</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="syouboukigu-filter"><label for="syouboukigu-filter">消防団器具置き場</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="douro12-filter"><label for="douro12-filter">避難に適する道路（幅12m以上）</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="douro4-filter"><label for="douro4-filter">避難に適さない道路（幅4m程度）</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="yusouro-filter"><label for="yusouro-filter">緊急輸送路</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="suibu-filter"><label for="suibu-filter">水部</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="kinkyu_kyusuisen-filter"><label for="kinkyu_kyusuisen-filter">緊急給水栓</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="taishin_kyusuisen-filter"><label for="taishin_kyusuisen-filter">耐震給水栓</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="kyusuitank-filter"><label for="kyusuitank-filter">災害用地下給水タンク</label>
+      </div>
+    </div>
+    <div class="filter-option">
+      <div class="symbol-and-label">
+        <input type="checkbox" id="haisuisou-filter"><label for="haisuisou-filter">配水池・配水槽</label>
+      </div>
+    </div>
+
+    </div>
+</div>
+
+    <div id="theme-content" class="tab-content" style="display: none;">
+      <div id="theme-filters">
+        <h3>テーマでアート作品を絞る</h3>
+        <div class="theme-buttons">
+          </div>
+      </div>
+    </div>
+    <div id="basemap-toggle">
+      <p class="basemap-title">地図の切り替え</p>
+      <div class="basemap-buttons-container">
+        <button id="white-map-btn" class="basemap-btn active">白地図</button>
+        <button id="satellite-btn" class="basemap-btn">衛星画像</button>
+      </div>
+    </div>
+  <script src="https://js.arcgis.com/4.29/"></script>
+  <script src="script.js"></script>
+</body>
+</html>

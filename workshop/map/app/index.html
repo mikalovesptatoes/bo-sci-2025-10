@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ArcGIS JavaScript Map</title>
+  
+  <link rel="stylesheet" href="https://js.arcgis.com/4.29/esri/themes/light/main.css">
+  <link rel="stylesheet" href="style.css">
+  
+</head>
+<body>
+  <div id="viewDiv"></div>
+
+  <div id="control-panel">
+    <div id="hazard-content" class="tab-content">
+      <div id="hazard-filters">
+        <h3>表示するハザードマップ</h3>
+         <div class="filter-option" data-layer-title="gaisui_clip">
+          <span><input type="checkbox" id="gaisui-filter"><label for="gaisui-filter">川の水があふれる洪水（外水氾濫）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="naisui_clip">
+          <span><input type="checkbox" id="naisui-filter"><label for="naisui-filter">下水があふれる洪水（内水氾濫）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="kyukeisha_clip">
+          <span><input type="checkbox" id="kyukeisha-filter"><label for="kyukeisha-filter">土砂災害</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="takashio_clip">
+          <span><input type="checkbox" id="takashio-filter"><label for="takashio-filter">高潮（浸水深）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="tsunami_clip">
+          <span><input type="checkbox" id="tsunami-filter"><label for="tsunami-filter">津波（浸水深、慶長型地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="jishindo_clip">
+          <span><input type="checkbox" id="jishindo-filter"><label for="jishindo-filter">震度情報（元禄型関東地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="shoshitsu_clip">
+          <span><input type="checkbox" id="shoshitsu-filter"><label for="shoshitsu-filter">地震火災（元禄型関東地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+        <div class="filter-option" data-layer-title="ekijyouka_clip">
+          <span><input type="checkbox" id="ekijyouka-filter"><label for="ekijyouka-filter">地盤の液状化（元禄型関東地震）</label></span>
+          <span class="reorder-buttons">
+            <button class="reorder-button" data-direction="up">▲</button>
+            <button class="reorder-button" data-direction="down">▼</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="basemap-toggle">
+    <button id="white-map-btn" class="basemap-btn active">白地図</button>
+    <button id="satellite-btn" class="basemap-btn">衛星画像</button>
+  </div>
+
+  <script src="https://js.arcgis.com/4.29/"></script>
+  <script src="script.js"></script>
+</body>
+</html>

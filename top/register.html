@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ユーザー情報登録 | BO-SCCI</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="register.css" />
+  <link rel="stylesheet" href="base.css">
+</head>
+
+<body>
+  <div class="container">
+    <h2>新規ユーザー登録</h2>
+    <p class="desc">メール・パスワード・ニックネームを入力してください。</p>
+
+    <form id="registerForm">
+      <label>メールアドレス <span style="color:red;">＊任意</span></label>
+      <input type="email" id="email" placeholder="例：bousai@example.com">
+
+      <label>パスワード（8文字以上）<span style="color:red;">＊任意</span></label>
+      <input type="password" id="password" placeholder="8文字以上">
+
+      <label>パスワード（再入力）</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" minlength="8">
+      <p id="passwordError" style="color:red; display:none;">⚠️ パスワードが一致しません。</p>
+
+      <label>ニックネーム<span style="color:red;">＊必須</span></label>
+      <input type="text" id="userName" placeholder="例：ぼうさい たろう" required>
+
+      <!-- ✅ 学区検索リンクをラベル横に配置 -->
+      <label style="display:flex; align-items:center; justify-content:space-between;">
+        <span>お住まいの学区（任意）</span>
+        <a href="https://cgi.city.yokohama.lg.jp/kyoiku/tsugakukuiki/search_school/" 
+           target="_blank" 
+           style="font-size: 12px; color: #1976d2; text-decoration: none;">
+          学区検索はこちら 🔍
+        </a>
+      </label>
+      <select id="schoolSelect">
+        <option value="">▼ 学校を選択</option>
+        <option value="綱島小学校">綱島小学校</option>
+        <option value="日吉南小学校">日吉南小学校</option>
+        <option value="日吉台小学校">日吉台小学校</option>
+        <option value="大曽根小学校">大曽根小学校</option>
+        <option value="下田小学校">下田小学校</option>
+        <option value="大綱小学校">大綱小学校</option>
+        <option value="篠原小学校">篠原小学校</option>
+        <option value="箕輪小学校">箕輪小学校</option>
+      </select>
+
+      <div class="button-area">
+        <button type="submit" id="submitBtn">登録してはじめる</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 成功ポップ -->
+  <div class="success-popup" id="successPopup">
+    <div class="success-content">
+      <h3>🎉 登録が完了しました！</h3>
+      <p>クリックで次へ進みます</p>
+    </div>
+  </div>
+  
+<a href="../top/top.html" class="back-to-top">トップページに戻る</a>
+  <!-- 🔥 Firebase版スクリプト -->
+  <script type="module" src="register.js"></script>
+</body>
+</html>

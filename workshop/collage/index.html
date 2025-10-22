@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>コラージュ制作</title>
+
+<!-- 1) このステップの設定 -->
+<script>
+window.WS_STEP = {
+  index: 4,
+  total: 6,
+  title: 'コラージュで防災行動を表現しよう',
+  mission: {
+    purpose: 'さきほど決めた対象地点・区域について、どのような「防災行動」ができるかをコラージュで表現しよう。',
+    steps: [
+      '選んだ対象地点/区域において考えられる防災行動を考える。',
+      'マーブリング作品の上にコラージュを重ねて、行動を表現する。',
+      'できあがった作品の説明をワークシートに記録する。'
+    ],
+    goal: '防災行動の意図が伝わるコラージュ作品が完成し、ワークシートの設問5に記録できたら完了です。',
+    // ▼ ここが“例”のブロック（任意）
+    examples: {
+      actions: {
+        title: '防災行動の例（いつ・何をする？）',
+        items: [
+          '<span class="chip">事前の備え</span> 家具の固定、非常持ち出し品の準備、家族の連絡手段を決める',
+          '<span class="chip">直前の避難</span> ハザードマップで避難先を確認、早めの避難開始',
+          '<span class="chip">災害時の対応</span> 初期消火、救援要請、声かけ・安否確認',
+          '<span class="chip">直後の整備</span> 避難所の役割分担、物資整理、情報掲示',
+          '<span class="chip">復旧・復興</span> ボランティア参加、地域の再建計画、再発防止の仕組みづくり'
+        ]
+      },
+      actors: {
+        title: '防災行動の主体（誰がする？）',
+        items: [
+          '<span class="chip">住民</span>（個人・家族・自治会）',
+          '<span class="chip">通勤・通学者</span>',
+          '<span class="chip">学校・企業</span>',
+          '<span class="chip">自治体</span>',
+          '<span class="chip">消防・警察・医療</span>'
+        ]
+      }
+    }
+  },
+  next: '../message/index.html',
+  surveyUrl: 'https://survey123.arcgis.com/share/cff62fc5070c4f468b2c9269d5b2535f',  // ←実URL
+  surveyHint: '今回の入力：設問6（コラージュで表現した防災行動の説明）',
+  gateKey: 'gate:step4'
+};
+</script>
+
+
+<link rel="stylesheet" href="../common/styles.css" />
+
+<style>
+  main.stage { padding: 0; }
+  .frame-wrap {
+    width: 100%;
+    height: calc(100dvh - 56px);  /* ヘッダーぶん差し引き */
+    overflow: hidden;
+    background: #fff;
+  }
+  .frame-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    touch-action: none; /* iPadでの誤スクロール抑制 */
+  }
+</style>
+</head>
+<body>
+
+<main class="stage">
+  <div class="frame-wrap">
+    <!-- ここに既存コラージュの index.html を読み込む -->
+    <iframe
+      src="./app/index.html"
+      allow="fullscreen"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</main>
+
+<script src="../common/nav.js"></script>
+</body>
+</html>

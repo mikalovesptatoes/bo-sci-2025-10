@@ -1,0 +1,309 @@
+:root { --bg:#0f1115; --panel:#f7f7f8; --accent:#22c55e; }
+
+/* ★ ページ全体のスクロールを止める */
+html, body {
+  height: 100%;        /* 高さ基準 */
+  overflow: hidden;    /* ← 全体スクロール無効 */
+  overscroll-behavior: none;    /* ビヨーン無効 */
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; 
+  display: grid; 
+  grid-template-columns: 320px 1fr;
+  height: 100svh;     /* ← モバイルUIに強い */
+  min-height: 100svh; 
+  background: var(--bg); 
+  color: #222;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto;
+}
+aside { background: var(--panel); padding: 16px; border-right: 1px solid #e5e7eb; overflow: auto; height: 100vh; overflow-y: auto;}
+main { display: grid; place-items: center; overflow: hidden; }
+#stageWrap { width: 100%; height: 100%; display: grid; place-items: center; }
+canvas { background: #fff; max-width: 100%; max-height: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+h1 { font-size: 16px; margin: 0 0 12px; }
+.row { margin: 0 0 14px; }
+.row label { display: block; font-size: 12px; margin: 0 0 8px; color: #555; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+button { appearance: none; border: 1px solid #e5e7eb; background:#fff; border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* 行そのもののレイアウト（必要に応じて） */
+.action-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* アイコンボタン：薄いガラス質感＋ふわっと影 */
+.icon-btn {
+  --btn-size: 40px;
+  width: var(--btn-size);
+  height: var(--btn-size);
+  display: inline-grid;
+  place-items: center;
+  border-radius: 12px;
+
+  /* ベース */
+  background: linear-gradient(180deg, #ffffff 0%, #fbfbfd 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);      /* slate-900 / 12% */
+  color: #0f172a;                                 /* slate-900 */
+  box-shadow:
+    0 1px 2px rgba(2, 6, 23, 0.06),
+    0 8px 24px rgba(2, 6, 23, 0.06);              /* ふわっと */
+
+  transition:
+    transform .08s ease,
+    box-shadow .18s ease,
+    background .18s ease,
+    border-color .18s ease;
+}
+
+/* “ghost” バリエーション（薄め） */
+.icon-btn.ghost {
+  background: linear-gradient(180deg, #ffffff 0%, #f6f7fb 100%);
+  border-color: rgba(15, 23, 42, 0.06);
+}
+
+/* ホバーで持ち上がる＋薄くハイライト */
+.icon-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 3px 8px rgba(2, 6, 23, 0.10),
+    0 12px 28px rgba(2, 6, 23, 0.10);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fafb 100%);
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+/* クリック感（軽く沈む） */
+.icon-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 3px rgba(2, 6, 23, 0.08),
+    inset 0 1px 2px rgba(2, 6, 23, 0.06);
+}
+
+/* フォーカスリング（アクセシビリティ） */
+.icon-btn:focus-visible {
+  outline: 3px solid rgba(34, 197, 94, .35);   /* var(--accent)相当 */
+  outline-offset: 2px;
+}
+
+/* 無効状態は薄く */
+.icon-btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* 中のSVGをシャープに見せる */
+.icon-btn svg {
+  display: block;
+  translate: 0 0;  /* サブピクセルぼけ回避 */
+}
+
+/* 危険操作バリエーション（ゴミ箱など） */
+.icon-btn.danger {
+  color: #b91c1c; /* red-700 */
+  border-color: rgba(185, 28, 28, .12);
+  background: linear-gradient(180deg, #fff 0%, #fef2f2 100%);
+}
+.icon-btn.danger:hover {
+  color: #991b1b; /* red-800 */
+  border-color: rgba(185, 28, 28, .24);
+  background: linear-gradient(180deg, #fff 0%, #fee2e2 100%);
+}
+.icon-btn.danger:active {
+  box-shadow: inset 0 1px 2px rgba(185, 28, 28, .18);
+}
+
+/* 全部消す（警告バリエーション） */
+.icon-btn.warning {
+  color: #b45309; /* amber-700 */
+  border-color: rgba(180, 83, 9, .16);
+  background: linear-gradient(180deg, #fff 0%, #fff7ed 100%); /* amber-50 */
+}
+.icon-btn.warning:hover {
+  color: #92400e; /* amber-800 */
+  border-color: rgba(180, 83, 9, .28);
+  background: linear-gradient(180deg, #fff 0%, #ffedd5 100%); /* amber-100 */
+}
+.icon-btn.warning:active {
+  box-shadow: inset 0 1px 2px rgba(180, 83, 9, .18);
+}
+
+/* 旧ツールバーの全部消去ボタンを隠す（ダブり防止・任意） */
+.toolbar #clearBtn { display: none !important; }
+
+/* 左下フッター（aside の一番下にペタッと） */
+.aside-footer {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(247,247,248,0) 0%, #f7f7f8 40%);
+  padding-top: 8px;
+  padding-bottom: 4px;
+}
+
+/* プライマリボタン（アクセント色） */
+.primary-btn {
+  width: 100%;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(34,197,94,.22);
+  background: linear-gradient(180deg, #34d399 0%, #22c55e 100%); /* emerald */
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: .01em;
+  box-shadow:
+    0 2px 6px rgba(16,185,129,.24),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  transition: transform .06s ease, box-shadow .18s ease, filter .18s ease;
+}
+.primary-btn:hover {
+  filter: saturate(1.05) brightness(1.02);
+  box-shadow:
+    0 6px 16px rgba(16,185,129,.28),
+    inset 0 1px 0 rgba(255,255,255,.35);
+}
+.primary-btn:active { transform: translateY(1px); }
+.primary-btn:disabled {
+  opacity: .6; cursor: not-allowed; filter: grayscale(.15);
+}
+
+/* 旧テキスト版の保存ボタンは隠す（重複回避） */
+.toolbar #saveBtn { display: none !important; }
+
+
+/* 色UI */
+#colorRow label {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .25rem;
+}
+.preview-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
+.color-picker {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: .5rem;
+}
+.color-picker input[type="color"] {
+  width: 100%;
+  height: 42px;              /* 大きくして分かりやすく */
+  padding: 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+}
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: .4rem;
+}
+.swatch {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.12);
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+.swatch:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+.help {
+  font-size: .9rem;
+  color: #555;
+  line-height: 1.6;
+  margin-top: .25rem;
+}
+
+
+/* サムネ一覧（幅に応じて 4列⇄3列に自動切替） */
+.thumbs {
+  /* 調整用のカスタムプロパティ */
+  --cell: 64px;   /* 1セル基準サイズ（必要なら72pxなどに） */
+  --gap: 8px;
+
+  display: grid;
+  /* 幅が足りれば 4列、足りなければ 3列…と自動調整 */
+  grid-template-columns: repeat(auto-fit, minmax(var(--cell), 1fr));
+  grid-auto-rows: var(--cell);
+  gap: var(--gap);
+
+  padding: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #111;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* 常時3行ぶん見える高さ：3*セル + 2*隙間 + 上下padding */
+  height: calc(3 * var(--cell) + 2 * var(--gap) + 16px);
+}
+
+/* 各セルはグリッドにフィット（幅可変でも正方形を維持） */
+.thumb {
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  background: #222;
+  box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+.thumb img {
+  max-width: 85%;
+  max-height: 85%;
+  object-fit: contain;
+}
+
+.thumb.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(34,197,94,.4);
+}
+
+
+input[type="range"] { width: 100%; }
+
+/* サイドはスクロールOK（フォーム操作のため） */
+aside {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ステージは固定。パン/ピンチ/ダブルタップズームをCSSで禁止 */
+main { overflow: hidden; }
+
+#stageWrap {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  touch-action: none;           /* ← これが要 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#stage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;           /* 念のため canvas 本体にも */
+}
+
