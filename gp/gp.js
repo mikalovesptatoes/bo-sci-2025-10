@@ -184,7 +184,6 @@ import {
       );
 
       if (artworks.length > 0) myArtId = artworks[0].art_id;
-      listenCommentsRealtime();
       buildCarousel(artworks);
       if (artworks[0]) selectArtwork(artworks[0].art_id);
       listenCommentsRealtime(); // Firestore の購読開始
