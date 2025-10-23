@@ -230,10 +230,15 @@ import {
       const data = await res.json();
       if (!data.attachmentInfos || data.attachmentInfos.length === 0) return "";
 
-      // 最初の画像だけでなく、最も大きい（＝最新）画像を優先
       const sorted = data.attachmentInfos.sort((a, b) => b.size - a.size);
       const attId = sorted[0].id;
-      return `${SURVEY_LAYER_URL}/${objectId}/attachments/${attId}?token=`;
+
+      // ✅ tokenクエリを条件付きで付与（空なら付けない）
+      const tokenParam =
+        window.ARC_TOKEN && window.ARC_TOKEN !== ""
+          ? `?token=${window.ARC_TOKEN}`
+          : "";
+      return `${SURVEY_LAYER_URL}/${objectId}/attachments/${attId}${tokenParam}`;
     } catch (e) {
       console.warn("添付取得エラー:", e);
       return "";

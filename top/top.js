@@ -95,9 +95,20 @@ function applyActiveState(index) {
 
 function showSlide(index) {
   if (!allImages.length) return;
-  currentIndex = (index + allImages.length) % allImages.length;
-  applyActiveState(currentIndex);
 
+  // 現在の画像と次の画像を特定
+  const prevImage = allImages[currentIndex];
+  currentIndex = (index + allImages.length) % allImages.length;
+  const nextImage = allImages[currentIndex];
+
+  // すべてのクラスをリセット
+  allImages.forEach((img) => img.classList.remove("active", "previous"));
+
+  // 🔹 1枚前にあたる画像に previous クラスを付与
+  if (prevImage) prevImage.classList.add("previous");
+
+  // 🔹 新しい画像に active クラスを付与
+  if (nextImage) nextImage.classList.add("active");
   captionBox.classList.remove("show");
   if (hero) hero.classList.remove("focused");
 
@@ -521,7 +532,7 @@ if (loginBtn) {
 const guestBtn = document.getElementById("guestBtn");
 if (guestBtn) {
   guestBtn.addEventListener("click", () => {
-    window.location.href = "taiken.html";
+    window.location.href = "../taiken/index.html";
   });
 }
 
@@ -576,3 +587,34 @@ const observer = new IntersectionObserver(
   { threshold: 0.1 }
 );
 if (heroCenter) observer.observe(heroCenter);
+
+// =============================
+// ご近所アートチャット ポップアップ
+// =============================
+const chatBox = document.getElementById("chatBox");
+const chatPopup = document.getElementById("chatPopup");
+const closeChatPopup = document.getElementById("closeChatPopup");
+const goChatBtn = document.getElementById("goChatBtn");
+
+// ボックスクリック → ポップアップ表示
+if (chatBox) {
+  chatBox.addEventListener("click", () => {
+    chatPopup?.classList.remove("hidden");
+    chatPopup?.classList.add("show");
+  });
+}
+
+// 閉じるボタン
+if (closeChatPopup) {
+  closeChatPopup.addEventListener("click", () => {
+    chatPopup?.classList.remove("show");
+    chatPopup?.classList.add("hidden");
+  });
+}
+
+// 「使ってみる」ボタン → ご近所アートページに遷移
+if (goChatBtn) {
+  goChatBtn.addEventListener("click", () => {
+    window.location.href = "../gp/gp.html";
+  });
+}

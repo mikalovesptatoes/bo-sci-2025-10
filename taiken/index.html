@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Cache-Control" content="no-cache">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <!-- <link rel="apple-touch-icon" href="logo.png">
+        <link rel="icon" href="logo.png"> -->
+
+        <title>WebGL Fluid Simulation</title>
+        <meta name="description" content="A WebGL fluid simulation that works in mobile browsers.">
+
+        <!-- <meta property="og:type" content="website">
+        <meta property="og:title" content="Webgl Fluid Simulation">
+        <meta property="og:description" content="A WebGL fluid simulation that works in mobile browsers.">
+        <meta property="og:url" content="https://paveldogreat.github.io/WebGL-Fluid-Simulation/">
+        <meta property="og:image" content="https://paveldogreat.github.io/WebGL-Fluid-Simulation/logo.png"> -->
+
+        <script type="text/javascript" src="dat.gui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css"></link>
+
+        <script>
+            window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};
+            // ga.l=+new Date;
+            // ga('create', 'UA-105392568-1', 'auto');
+            // ga('send', 'pageview');
+        </script>
+        <!-- <script async src="https://www.google-analytics.com/analytics.js"></script> -->
+    </head>
+    <body>
+        <div id="app">
+            <aside id="controls" aria-label="コントロール">
+                <section>
+                    <h2 class="section-title-with-help">
+                        解像度
+                        <button id="help-btn" class="help-button" aria-label="チュートリアルを開く" title="チュートリアルを開く"></button>
+                    </h2>
+                    <label for="ctrl-dye-res">画像の解像度</label>
+                    <select id="ctrl-dye-res">
+                        <option value="1024">1024</option>
+                        <option value="512">512</option>
+                        <option value="256">256</option>
+                        <option value="128">128</option>
+                    </select>
+                    <label for="ctrl-sim-res">解析の解像度</label>
+                    <select id="ctrl-sim-res">
+                        <option value="32">32</option>
+                        <option value="64">64</option>
+                        <option value="128">128</option>
+                        <option value="256">256</option>
+                        <option value="512">512</option>
+                    </select>
+                </section>
+                <section>
+                    <h2>液体</h2>
+                    <label for="ctrl-vel-diss">粘り</label>
+                    <input type="range" id="ctrl-vel-diss" min="0" max="4" step="0.01">
+                    <label for="ctrl-pressure">圧力の大きさ</label>
+                    <input type="range" id="ctrl-pressure" min="0" max="1" step="0.01">
+                    <label for="ctrl-curl">渦の出やすさ</label>
+                    <input type="range" id="ctrl-curl" min="0" max="10" step="1">
+                </section>
+                <!-- 描画・操作 -->
+                <section>
+                <h2>描画・操作</h2>
+                <button id="ctrl-paint-toggle" data-tour="play-toggle">絵の具を塗る</button>
+                <label for="ctrl-brush">ブラシの大きさ</label>
+                <input type="range" id="ctrl-brush" min="0.01" max="0.3" step="0.01" data-tour="brush-size">
+                <label for="ctrl-fore-color">絵の具の色</label>
+                <input type="color" id="ctrl-fore-color" data-tour="color-picker">
+                </section>
+
+                <!-- ユーティリティ -->
+                <section>
+                <h2>ユーティリティ</h2>
+                <button id="ctrl-random-splat" data-tour="splat">ランダム配置</button>
+                <button id="ctrl-save" data-tour="export">作品の保存</button>
+                </section>
+                <section>
+                    <h2>フィルター</h2>
+                    <button id="ctrl-filter-sketch">スケッチ風</button>
+                    <div id="ctrl-filter-sketch-params" style="display:none;">
+                        <label>エッジ強度</label><input id="ctrl-edge-strength" type="range" min="0" max="2" step="0.01">
+                        <label>エッジ閾値</label><input id="ctrl-edge-threshold" type="range" min="0" max="1" step="0.01">
+                        <label>段階数</label><input id="ctrl-levels" type="range" min="2" max="8" step="1">
+                        <label>彩度</label><input id="ctrl-saturation" type="range" min="0" max="1" step="0.01">
+                    </div>
+                </section>
+            </aside>
+            <main id="stage">
+                <canvas></canvas>
+            </main>
+        </div>
+        <script src="./script.js"></script>
+        <script type="module" src="./tour-config.js"></script>
+        <script type="module" src="./tour.js"></script>
+    </body>
+</html>

@@ -7,7 +7,10 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+　<!-- HTML <head> 内 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&family=Zen+Kurenaido&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
+　
   <!-- 外部CSS -->
   <link rel="stylesheet" href="./top/top.css">
   <link rel="stylesheet" href="./top/base.css">
@@ -77,7 +80,7 @@
       未来に備えて、楽しみながら防災力を高め、住民どうしのつながりを広げませんか？
     </div>
 
-    <div class="tap-hint" id="tapHint">画面をクリックして作品を見る</div>
+    <div class="tap-hint" id="tapHint">画面をクリックしてスタート</div>
     <div class="tap-hints">▼ 下にスクロールして参加する ▼</div>
 
   </main>
@@ -183,7 +186,7 @@
   <section class="bottom-area">
     <!-- 左：マップボックス -->
     <div class="map-box" onclick="window.location.href='../map/index.html'">
-      <h3><span class="highlight">防災行動マップ</span>で作品を鑑賞する</h3>
+      <h3><span class="highlight">防災行動マップ</span><br>で作品を鑑賞する</h3>
       <img src="./top/images/map-demo.png" alt="防災行動マップ" />
     </div>
 
@@ -206,6 +209,33 @@
     <p class="note">ログイン後に作品を保存・共有できます</p>
   </div>
 </div>
+  <!-- 中央：ご近所アートチャットボックス -->
+  <div class="chat-box" id="chatBox">
+    <h3><span class="highlight">ご近所アートチャット</span><br>で交流する</h3>
+    <img src="./top/images/chat-thumbnail.png" alt="ご近所アートチャット" />
+  </div>
+
+  <!-- 🔹 ポップアップ本体 -->
+  <div id="chatPopup" class="popup hidden">
+    <div class="popup-content">
+      <h3>ご近所アートチャットとは？</h3>
+      <video
+        src="./top/images/chat.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        class="demo-video"
+      ></video>
+      <p>
+        「ご近所アートチャット」は、地域の作品を見ながら感想を共有できる交流ページです。<br>  
+        コメントやリアクションを通じて、地域住民の防災意識を育みます。
+      </p>
+      <button id="goChatBtn" class="create-btn">使ってみる</button>
+      <button id="closeChatPopup" class="guest-btn">閉じる</button>
+    </div>
+  </div>
+
 
   </section>
 

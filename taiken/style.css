@@ -1,0 +1,415 @@
+@font-face {
+    font-family: 'iconfont';
+    src: url('iconfont.ttf') format('truetype');
+}
+
+* {
+    user-select: none;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#app {
+    display: flex;
+    height: 100vh;
+}
+
+#controls {
+    width: 300px;
+    min-width: 220px;
+    background: #111;
+    color: #eee;
+    border-right: 1px solid #ddd;
+    overflow: auto;
+    padding: 24px 16px 24px 16px;
+    box-sizing: border-box;
+}
+
+#stage {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+}
+
+#stage canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#controls label {
+    display: block;
+    margin: 12px 0 6px;
+    font-size: 14px;
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+#controls input[type="range"],
+#controls input[type="color"],
+#controls select,
+#controls button {
+    width: 100%;
+    min-height: 40px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    background: #222;
+    color: #eee;
+    border: 1px solid #444;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+#controls input[type="range"] {
+    height: 30px;
+    accent-color: #7aa2ff;
+}
+
+#controls input[type="range"]::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #7aa2ff;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+#controls input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #7aa2ff;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+#controls input[type="range"]::-ms-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #7aa2ff;
+    border: 2px solid #fff;
+    cursor: pointer;
+}
+
+#controls button {
+    padding: 0 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #222;
+    color: #eee;
+    border: 1px solid #444;
+    font-weight: 600;
+}
+
+#controls select:focus-visible,
+#controls input:focus-visible,
+#controls button:focus-visible {
+    outline: 2px solid #7aa2ff;
+    outline-offset: 2px;
+}
+
+#controls section {
+    margin-bottom: 32px;
+}
+
+#controls .section-title, #controls h2 {
+    font-size: 1.15rem;
+    font-weight: bold;
+    margin: 24px 0 12px 0;
+    color: #fafafa;
+    letter-spacing: 0.02em;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.dg {
+    opacity: 0.9;
+}
+
+.dg .property-name {
+    overflow: visible;
+}
+
+.bigFont {
+    font-size: 150%;
+    color: #8C8C8C;
+}
+
+.cr.function.appBigFont {
+    font-size: 150%;
+    line-height: 27px;
+    color: #A5F8D3;
+    background-color: #023C40;
+}
+
+.cr.function.appBigFont .property-name {
+    float: none;
+}
+
+.cr.function.appBigFont .icon {
+    position: sticky;
+    bottom: 27px;
+}
+
+.icon {
+    font-family: 'iconfont';
+    font-size: 130%;
+    float: right;
+}
+
+.twitter:before {
+    content: 'a';
+}
+
+.github:before {
+    content: 'b';
+}
+
+.app:before {
+    content: 'c';
+}
+
+.discord:before {
+    content: 'd';
+}
+
+.promo {
+    display: none;
+    /* display: table; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: auto;
+    color: lightblue;
+    background-color: rgba(0,0,0,0.4);
+    animation: promo-appear-animation 0.35s ease-out;
+}
+
+.promo-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.promo-content {
+    width: 80vw;
+    height: 80vh;
+    max-width: 80vh;
+    max-height: 80vw;
+    margin: auto;
+    padding: 0;
+    font-size: 2.8vmax;
+    font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+    text-align: center;
+    background-image: url("promo_back.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.promo-header {
+    height: 10%;
+    padding: 2px 16px;
+}
+
+.promo-close {
+    width: 10%;
+    height: 100%;
+    text-align: left;
+    float: left;
+    font-size: 1.3em;
+    /* transition: 0.2s; */
+}
+
+.promo-close:hover {
+    /* transform: scale(1.25); */
+    cursor: pointer;
+}
+
+.promo-body {
+    padding: 8px 16px 16px 16px;
+    margin: auto;
+}
+
+.promo-body p {
+    margin-top: 0;
+    mix-blend-mode: color-dodge;
+}
+
+.link {
+    width: 100%;
+    display: inline-block;
+}
+
+.link img {
+    width: 100%;
+}
+
+@keyframes promo-appear-animation {
+    0% {
+        transform: scale(2.0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1.0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 1200px) {
+    #controls {
+        width: 220px;
+        font-size: 0.95rem;
+        padding: 16px 8px 16px 8px;
+    }
+    #controls .section-title, #controls h2 {
+        font-size: 1rem;
+        margin: 18px 0 10px 0;
+    }
+    #controls label {
+        font-size: 13px;
+    }
+    #controls select,
+    #controls input[type="range"],
+    #controls input[type="color"],
+    #controls button {
+        min-height: 36px;
+        font-size: 0.95rem;
+    }
+}
+
+/* === Tour minimal styles === */
+.tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none; /* クリックを奪わない */
+}
+
+.tour-outline { /* highlight時の大枠＋周囲暗幕はJSでbox-shadow付与 */
+  display: none;
+}
+
+.tour-popover {
+  z-index: 10002;
+  max-width: 360px;
+  background: #fff;
+  color: #111;
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.25);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans JP", sans-serif;
+}
+.tour-popover__title { font-weight: 700; margin-bottom: 4px; }
+.tour-popover__body { font-size: 14px; line-height: 1.6; margin-bottom: 8px; }
+.tour-popover__actions { display: flex; gap: 8px; justify-content: flex-end; }
+.tour-popover__actions button {
+  font-size: 14px; padding: 6px 10px; border-radius: 8px;
+  border: 1px solid #ccc; background: #f8f8f8; cursor: pointer;
+}
+.tour-popover__actions button[data-act="next"] {
+  border-color: #22c55e; background: #22c55e; color: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tour-popover { transition: none; }
+}
+
+/* === Help button in controls === */
+.section-title-with-help {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* 小さめ ? ボタン（見た目 16px、当たり判定 28px） */
+.section-title-with-help {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.help-button {
+  --vis-size: 16px;   /* 見た目サイズ */
+  --hit-size: 28px;   /* 当たり判定サイズ（アクセシビリティ確保） */
+
+  inline-size: var(--hit-size);
+  block-size: var(--hit-size);
+  padding: 0;
+  border: none;
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+}
+
+/* === 小さな ? ボタン：丸だけ・目立つ色 === */
+.help-button {
+  /* 当たり判定は広めに（押しやすさ）*/
+  --hit-size: 28px;     /* 触れる面積 */
+  --vis-size: 16px;     /* 見た目の丸の直径 */
+  --help-color: #f59e0b;/* 目立つ色（Amber）。例: #22c55e / #3b82f6 に変えてもOK */
+
+  inline-size: var(--hit-size);
+  block-size: var(--hit-size);
+  padding: 0;
+  border: none;                 /* 外枠ナシ */
+  background: transparent;      /* 背景ナシ（丸は ::before で描く）*/
+  position: relative;
+  cursor: pointer;
+}
+
+/* ヘルプだけ #controls の汎用ボタン装飾を無効化 */
+#controls .help-button {
+  all: unset;                 /* 既存の幅/背景/枠などを一旦リセット */
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  inline-size: 28px;          /* 当たり判定（触れる面積）*/
+  block-size: 28px;
+}
+
+/* 見た目は小さな丸だけ（長方形ボックスは出ない）*/
+#controls .help-button::before {
+  content: "?";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 30px;          /* 丸の直径（小さめ）*/
+  block-size: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #f59e0b;        /* 目立つ色（Amber） */
+  color: #111;
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0,0,0,.35);
+  transition: transform .12s ease, filter .2s ease;
+}
+#controls .help-button:hover::before { transform: scale(1.06); filter: brightness(1.05); }
+#controls .help-button:active::before { transform: scale(0.97); filter: brightness(0.98); }
+#controls .help-button:focus-visible { outline: 2px solid #7aa2ff; outline-offset: 2px; }
+
+/* 見出しの並び（既にあればそのままでOK） */
+.section-title-with-help {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+}
+
+
