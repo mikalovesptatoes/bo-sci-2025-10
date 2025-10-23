@@ -203,7 +203,7 @@ body{
 /* === 全体レイアウト === */
 .carousel-vertical {
   height: 360px;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -218,7 +218,6 @@ body{
   perspective: 800px;
 }
 
-/* === カードを並べるトラック === */
 .carousel-track-vertical {
   display: flex;
   flex-direction: column;
@@ -226,6 +225,10 @@ body{
   gap: 14px;
   position: relative;
   padding: 20px 0;
+  height: 100%;
+  overflow-y: auto;  /* ✅ ← スクロールをここに移す */
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
 /* === 各カード === */
@@ -243,7 +246,7 @@ body{
   transform-origin: center center;
   scroll-snap-align: center;
   opacity: 0.6;
-  transform: scale(0.85) rotateX(8deg);
+  transform: scale(0.9) rotateX(20deg);
   border: 2px solid transparent;
 }
 
@@ -295,7 +298,7 @@ body{
 
 /* === ホバー時（軽く浮く） === */
 .card:hover {
-  transform: translateY(-3px) scale(0.9);
+  transform: translateY(-3px) scale(1.05);
 }
 
 /* === アクティブ時（中央カード） ===

@@ -1,12 +1,234 @@
-<!-- index.html （プロジェクトルート直下） -->
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=top/top.html">
-    <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>Redirecting to <a href="top/top.html">top/top.html</a>...</p>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>防災×市民科学×アート | ログイン／体験</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 外部CSS -->
+  <link rel="stylesheet" href="./top/top.css">
+  <link rel="stylesheet" href="./base.css">
+</head>
+
+<body>
+    
+ <!-- ===== 固定ヘッダー ===== -->
+<header id="mainHeader">
+  <div class="header-left">
+    <h1 class="header-title">防災×市民科学×アート</h1>
+  </div>
+
+  <div class="header-right" id="userNav">
+    <button id="createBtn" class="header-btn create">作品制作<br>ログイン</button>
+    <button class="header-btn map">防災行動<br>マップ</button>
+  </div>
+</header>
+</header>
+<!-- ===== ログインポップアップ ===== -->
+<div id="loginPopup" class="popup hidden">
+  <div class="popup-content">
+    <h3>ログイン</h3>
+    <input id="email" type="email" placeholder="メールアドレス" autocomplete="username" />
+    <input id="password" type="password" placeholder="パスワード" autocomplete="current-password" />
+    <div class="popup-btns">
+      <button id="loginBtn">ログイン</button>
+      <button id="goRegister">新規登録</button>
+      <button id="closeLoginPopup">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🔹 ログイン完了メッセージ -->
+<div id="welcomeMsg" class="hidden"></div>
+
+
+  <main>
+
+    <!-- 🔹 背景スライドショー -->
+    <div class="background-slideshow" id="hero">
+      <div class="background-track">
+        <img src="../top/images/1班.JPG" data-caption="🚧" alt="" class="slide">
+        <img src="../top/images/2班.JPG" data-caption="高台に逃げて！" alt="" class="slide">
+        <img src="../top/images/3班.png" data-caption="大雨のとき、二階に避難！危険なら公園へ！" alt="" class="slide">
+        <img src="../top/images/IMG_0002.jpeg" data-caption="慶應生は勉強できるよ！けど日吉公園付近は危ないよ！" alt="" class="slide">
+        <img src="../top/images/IMG_0003.jpeg" data-caption="この地域の住民に、普段気づきにくい水害のリスクと取るべき行動を伝える。" alt="" class="slide">
+      </div>
+
+      <!-- 🔸 スライド操作ボタン -->
+      <button id="prevBtn" class="nav-btn prev" aria-label="前の画像">&#10094;</button>
+      <button id="nextBtn" class="nav-btn next" aria-label="次の画像">&#10095;</button>
+    </div>
+
+    <div class="floating-title" id="floatingTitle"></div>
+
+    <!-- 中央タイトル群（初期は中央、クリックで上にスライド） -->
+    <div class="hero-center" id="heroCenter">
+      <h1>防災×市民科学×アート</h1>
+      <h2>アートで表現するあなたの地域の災害リスクと防災行動</h2>
+    </div>
+
+    <div class="project-text" id="projectText">
+      あなたが大切に思う人やこの街の子どもたちの安全について話す機会はありますか？<br>
+      本ワークショップでは、簡単なデジタルツールの体験とハザードマップをもとにしたアート制作に取り組みます。<br>
+      他の参加者との共同作業が、自然な対話と助け合いのきっかけを生み出します。<br>
+      未来に備えて、楽しみながら防災力を高め、住民どうしのつながりを広げませんか？
+    </div>
+
+    <div class="tap-hint" id="tapHint">画面をクリックして作品を見る</div>
+    <div class="tap-hints">▼ 下にスクロールして参加する ▼</div>
+
+  </main>
+  
+  <div class="video-section">
+    <h1>アート制作は楽しくて簡単！</h1>
+    <p>お手持ちのデジタルデバイスで、マーブリングを楽しみながら</p>
+    <video
+      src="../top/images/dora.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      class="demo-video"
+    ></video>
+  </div>
+
+  <!-- 🔹 コラージュ動画 -->
+  <div class="video-section">
+    <p>コラージュで、更にメッセージを追加！</p>
+    <video
+      src="../top/images/mike.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      class="demo-video"
+    ></video>
+  </div>
+
+  <div class="create-box">
+    <h1>あなたの気づきを<br>アートで伝えてみませんか？</h1>
+
+    <div class="button-with-bubbles">
+      <!-- 左吹き出し -->
+      <div class="fukidashi left">
+        <div class="bubble-inner">
+          <p>
+            3分ですぐできます！<br>
+            マーブリングを手軽に楽しく体験！<br>
+            唯一無二の模様をデジタルで表現！
+          </p>
+        </div>
+      </div>
+
+      <!-- ボタン中央 -->
+      <div class="create-btn-container">
+        <button class="create-btn start-create">作品を制作してみる</button>
+        <div class="divider">または</div>
+        <button id="guestBtn" class="guest-btn">ツール体験に進む</button>
+        <p class="note">ログイン後に作品を保存・共有できます</p>
+      </div>
+
+      <!-- 右吹き出し -->
+      <div class="fukidashi right">
+        <div class="bubble-inner">
+          <p>
+            場所を問わず、1時間程度であなたの作品が完成！<br>
+            作った作品はリアルタイムでマップに表示！
+          </p>
+        </div>
+      </div>
+    </div>
+    <h1>作品制作後にはあなたの地域で必要な防災行動への理解が深まります</h1>
+    <h1>作品制作後の姿を表示</h1>
+  </div>
+
+  <!-- ===== ギャラリー領域 ===== -->
+  <section class="gallery" id="gallery" aria-label="作品と作品情報">
+    <h1>こんな作品がご近所に！</h1>
+    <h2>地域目線のメッセージを見てみましょう！</h2>
+    <article class="work work-left">
+      <div class="work-image">
+        <img src="../top/images/IMG_0002.jpeg" alt="作品A画像">
+      </div>
+      <div class="work-info">
+        <h3>慶應生は勉強できるよ！けど日吉公園付近は危ないよ！</h3>
+        <ul>
+          <li>テーマ：水害時の二階避難と高台への誘導</li>
+          <li>制作意図：ポップな表現で危険箇所に気づく</li>
+          <li>行動喚起：家族で避難先を今決める</li>
+        </ul>
+        <a class="cta" href="../map/index.html">この作品を鑑賞</a>
+      </div>
+    </article>
+
+    <article class="work work-right">
+      <div class="work-info">
+        <h3>大雨のとき、二階に避難！危険なら公園へ！</h3>
+        <ul>
+          <li>テーマ：子育て世代の相互支援</li>
+          <li>制作意図：コメント・ありがとう機能で連帯感</li>
+          <li>行動喚起：避難連絡先を共有</li>
+        </ul>
+        <a class="cta" href="../map/index.html">この作品を鑑賞</a>
+      </div>
+      <div class="work-image">
+        <img src="../top/images/3班.png" alt="作品B画像">
+      </div>
+    </article>
+  </section>
+
+  <section class="bottom-area">
+    <!-- 左：マップボックス -->
+    <div class="map-box" onclick="window.location.href='../map/index.html'">
+      <h3><span class="highlight">防災行動マップ</span>で作品を鑑賞する</h3>
+      <img src="../top/images/map-demo.png" alt="防災行動マップ" />
+    </div>
+
+    <!-- ===== 下部ログインエリア ===== -->
+<div class="login-box">
+  <h3>作品制作に参加する</h3>
+  <div class="create-btn-container">
+    <button class="create-btn start-create">作品を制作してみる</button>
+    <div class="divider">または</div>
+    <button id="guestBtn" class="guest-btn">ツール体験に進む</button>
+    <p>▼アカウント登録済みの方はこちら▼</p>
+
+    <!-- 🔹重複しないよう別IDに変更 -->
+    <input id="registerEmail" type="email" placeholder="メールアドレス（登録用）" autocomplete="username">
+    <input id="registerPassword" type="password" placeholder="パスワード（登録用）" autocomplete="current-password">
+
+    <!-- 🔹ここは「ログインポップを開く」ボタンに変える -->
+    <button id="openLoginPopup">ログイン</button>
+
+    <p class="note">ログイン後に作品を保存・共有できます</p>
+  </div>
+</div>
+
+  </section>
+
+  <!-- ===== ポップアップ群 ===== -->
+  <div class="popup" id="choicePopup">
+    <div class="popup-content">
+      <p>アカウントを作成しますか？（特典があります）</p>
+      <button id="withAccount">アカウントを作成して制作</button>
+      <button id="withoutAccount">アカウントを作成せず制作</button>
+      <button class="close-popup" id="closeChoicePopup">キャンセル</button>
+    </div>
+  </div>
+
+  <div class="popup" id="confirmPopup">
+    <div class="popup-content">
+      <p>制作した作品は保存されません。<br>よろしいですか？</p>
+      <div class="popup-btn-row">
+        <button id="proceedGuest">アカウントなしで作品制作に進む</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK + top.js -->
+  <script type="module" src="./top/top.js"></script>
+</body>
 </html>

@@ -1149,56 +1149,93 @@ input:focus{border-color:#42a5f5; outline:none; background:#f0f8ff}
   .work-right .work-info{grid-column:auto}
 }
 
-/* ===============================
-   🔹 ログイン後のヘッダーナビ整列
-================================== */
+/* =============================
+   💡 ヘッダー全体の明確化
+============================= */
 #userNav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;               /* ボタン間の余白 */
-  justify-content: flex-end; /* 右寄せ配置 */
+  gap: 1.2rem;
+  justify-content: flex-end;
+  font-family: "Noto Sans JP", sans-serif;
 }
 
-#userNav .header-user {
-  display: flex;
-  align-items: center;
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 1rem;
-  color: var(--ink);
-  font-weight: 500;
-}
-
+/* 各ナビボタン共通スタイル */
 #userNav .header-btn {
-  background: none;
-  border: none;
-  color: var(--ink);
+  position: relative;
+  padding: 10px 18px;
   font-size: 0.95rem;
+  color: var(--ink);
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.06);
   text-decoration: none;
-  cursor: pointer;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
+/* hoverで柔らかく浮く */
 #userNav .header-btn:hover {
-  color: #1e88e5;
-  text-decoration: underline;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(135deg, #f0f7ff, #ffffff);
 }
 
-/* 🔹 最終上書き：ログアウトを極小リンク風に */
+/* 🔸 現在アクティブなボタン（視覚的固定） */
+#userNav .header-btn.active {
+  background: linear-gradient(135deg, #e0f2ff, #f4faff);
+  color: #1e88e5;
+  font-weight: 600;
+  box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.15);
+}
+
+/* 🎨 「作品制作」だけは行動喚起色 */
+#userNav .header-btn.create {
+  background: linear-gradient(135deg, #ff8a4c, #ffb56b);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 8px 16px rgba(255, 138, 76, 0.35);
+  transition: all 0.3s ease;
+}
+
+/* hoverでやわらかく光る */
+#userNav .header-btn.create:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 22px rgba(255, 138, 76, 0.45);
+  filter: brightness(1.1);
+}
+
+/* 🔹 「地域ご近所さんアートチャット」はフレンドリーな青系 */
+#userNav .header-btn.chat {
+  background: linear-gradient(135deg, #e3f2fd, #ffffff);
+  border: 1px solid #90caf9;
+  color: #1565c0;
+}
+#userNav .header-btn.chat:hover {
+  background: linear-gradient(135deg, #bbdefb, #e3f2fd);
+}
+
+/* 🔹 「防災行動マップ」は安心感ある緑 */
+#userNav .header-btn.map {
+  background: linear-gradient(135deg, #e8f5e9, #ffffff);
+  border: 1px solid #81c784;
+  color: #2e7d32;
+}
+#userNav .header-btn.map:hover {
+  background: linear-gradient(135deg, #c8e6c9, #f1f8e9);
+}
+
+/* ログアウトは小リンク風に */
 #userNav .header-btn.logout {
-  all: unset;                   /* ← 既存のpaddingやborderを完全リセット */
-  display: inline;
-  color: #1a4a9c;
-  font-size: 0.8rem;
-  font-weight: 500;
+  all: unset;
+  font-size: 0.85rem;
+  color: #6b7280;
   cursor: pointer;
   text-decoration: underline;
-  margin-left: 6px;
-  vertical-align: middle;
+}
+#userNav .header-btn.logout:hover {
+  color: #374151;
 }
 
-#userNav .header-btn.logout:hover {
-  color: #002f75;
-}
 
 
 /* 親要素での整列 */
@@ -1207,3 +1244,4 @@ input:focus{border-color:#42a5f5; outline:none; background:#f0f8ff}
   align-items: center;
   gap: 12px;
 }
+

@@ -161,8 +161,10 @@ import {
       artworks = await Promise.all(
         result.features.map(async (f) => {
           const attrs = f.attributes;
-          const title = attrs["Message"] || "無題";
-          const desc = attrs["Mabling"] || "";
+          // Survey123 の3つのフィールドを安全に取得
+          const mabling = attrs["Mabling"] || "";
+          const collage = attrs["collage"] || "";
+          const message = attrs["Message"] || "無題";
           const author =
             attrs["field_25"] ||
             attrs["nickname"] ||
@@ -171,11 +173,15 @@ import {
           const objectId =
             attrs["OBJECTID"] ?? attrs["ObjectID"] ?? attrs["objectid"];
           const imgUrl = await getAttachment(objectId);
+
           return {
             art_id: "art_" + objectId,
-            title,
-            desc,
-            author, // ←追加
+            title: message, // ← Messageをタイトルに
+            desc: mabling, // ← 従来通り
+            collage, // ← 追加
+            message, // ← 追加（titleとは別に保持も可）
+            mabling, // ← 明示的に保持
+            author,
             imgUrl,
             geometry: f.geometry,
             objectId,
@@ -235,18 +241,19 @@ import {
   }
 
   // --------------------------------------
-  // Carousel & Selection
+  // Carousel & Selection（修正版）
   // --------------------------------------
   function buildCarousel(items) {
     carouselTrack.innerHTML = "";
 
-    // 無限ループ風に前後を複製
     const loopedItems = [...items.slice(-2), ...items, ...items.slice(0, 2)];
 
     for (const a of loopedItems) {
       const el = document.createElement("article");
       el.className = "card";
       el.dataset.artId = a.art_id;
+      el.dataset.title = a.title;
+      el.dataset.author = a.author;
       el.innerHTML = `
       ${
         a.imgUrl
@@ -258,33 +265,55 @@ import {
     `;
       el.addEventListener("click", () => {
         selectArtwork(a.art_id);
-        openArtDialog(a);
+        setTimeout(() => openArtDialog(a), 100); // 少し遅延させて確実にselected更新
       });
+
       carouselTrack.appendChild(el);
     }
 
-    // 初期位置を中央に
-    const third = carouselTrack.scrollHeight / 3;
-    carouselTrack.scrollTop = third;
+    // === 初期位置を中央に ===
+    if (!carouselTrack.dataset.initialized) {
+      const third = carouselTrack.scrollHeight / 3;
+      carouselTrack.scrollTop = third;
+      carouselTrack.dataset.initialized = "true"; // ✅ 再実行防止
+    }
 
     // === 無限ループ挙動 ===
+    carouselTrack.addEventListener(
+      "scroll",
+      throttle(() => {
+        const max = carouselTrack.scrollHeight - carouselTrack.clientHeight;
+        if (carouselTrack.scrollTop > max - 50) {
+          carouselTrack.scrollTop -= third;
+        } else if (carouselTrack.scrollTop < 50) {
+          carouselTrack.scrollTop += third;
+        }
+        updateActiveCard(); // ← 中央カードを常時検出
+      }, 100)
+    );
+
+    // === スクロール停止後も確実に更新 ===
+    let scrollTimer;
     carouselTrack.addEventListener("scroll", () => {
-      const max = carouselTrack.scrollHeight - carouselTrack.clientHeight;
-      if (carouselTrack.scrollTop > max - 50) {
-        carouselTrack.scrollTop -= third;
-      } else if (carouselTrack.scrollTop < 50) {
-        carouselTrack.scrollTop += third;
-      }
-      // 💡 中央カードを検出して選択状態を更新
-      updateActiveCard();
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => updateActiveCard(), 200);
     });
 
-    // === 拡大アニメーション更新 ===
-    carouselTrack.addEventListener("scroll", throttle(updateActiveCard, 100));
+    // 初期選択
     setTimeout(updateActiveCard, 200);
   }
+
+  // --- 既に window.selectArtwork が存在しない場合でも fallback ---
+  function callSelectArtwork(artId) {
+    if (typeof window.selectArtwork === "function") {
+      window.selectArtwork(artId, { flyMap: false });
+    } else {
+      console.warn("selectArtwork 未定義です");
+    }
+  }
+
   // --------------------------------------
-  // 中央カードを検出して選択更新
+  // 中央カードを検出して選択更新（スクロールで自動変化）
   // --------------------------------------
   function updateActiveCard() {
     const cards = Array.from(carouselTrack.children);
@@ -298,30 +327,39 @@ import {
 
     cards.forEach((card) => {
       const rect = card.getBoundingClientRect();
-      const dist = Math.abs(rect.top + rect.height / 2 - centerY);
+      const cardCenter = rect.top + rect.height / 2;
+      const dist = Math.abs(cardCenter - centerY);
       if (dist < minDist) {
         minDist = dist;
         closest = card;
       }
     });
 
-    if (closest) {
-      const artId = closest.dataset.artId;
-      selectArtwork(artId, { flyMap: false });
-    }
+    if (!closest) return;
+    const artId = closest.dataset.artId;
+    if (selected && selected.art_id === artId) return;
+
+    // ✅ selectArtworkを安全に呼び出す
+    callSelectArtwork(artId);
   }
 
   // --------------------------------------
   // Firestore コメント購読
   // --------------------------------------
+  let unsubComments = null;
   function listenCommentsRealtime() {
+    // 🔁 既存購読があれば解除（二重購読防止）
+    if (unsubComments) {
+      unsubComments();
+      unsubComments = null;
+    }
+
     const q = query(
       collection(db, "comments"),
       where("district_id", "==", DISTRICT_ID)
     );
 
-    // 🔁 Firestoreのリアルタイム購読
-    onSnapshot(q, (snapshot) => {
+    unsubComments = onSnapshot(q, (snapshot) => {
       // 既存の泡を全部クリア
       bubbleLayer.querySelectorAll(".bubble").forEach((n) => n.remove());
 
@@ -458,36 +496,29 @@ import {
       }
     );
   }
-
   // --------------------------------------
   // 作品ダイアログ（Survey123の内容表示）
   // --------------------------------------
   async function openArtDialog(a) {
     dialogTarget = a;
 
-    // --- タイトル ---
-    artDialogTitle.textContent = a.title || a.Message || "無題の作品";
+    const mabling = a.mabling || "（説明なし）";
+    const collage = a.collage || "（説明なし）";
+    const message = a.message || "（メッセージなし）";
+    const imgUrl =
+      a.imgUrl || (a.objectId ? await getAttachment(a.objectId) : "");
 
-    // --- 各説明項目を抽出 ---
-    const mabling = a.Mabling || a.desc || "（説明なし）";
-    const collage = a.collage || a.Collage || "（説明なし）";
-    const message = a.Message || "（メッセージなし）";
-
-    // --- 画像 ---
-    let imgUrl = a.imgUrl;
-    if (!imgUrl && a.objectId && SURVEY_LAYER_URL) {
-      imgUrl = await getAttachment(a.objectId);
-    }
-
-    // --- HTML構築（画像＋3つの情報ボックス） ---
-    const imageHtml = imgUrl
-      ? `<img id="artDialogImage" class="art-image" src="${imgUrl}" alt="作品画像">`
-      : `<div class="art-image noimg">No Image</div>`;
+    // ✅ タイトル反映
+    artDialogTitle.textContent = a.title || "（タイトルなし）";
 
     const contentHtml = `
     <div class="art-content">
       <div class="art-image-wrap">
-        ${imageHtml}
+        ${
+          imgUrl
+            ? `<img id="artDialogImage" class="art-image" src="${imgUrl}" alt="作品画像">`
+            : `<div class="art-image noimg">No Image</div>`
+        }
       </div>
       <div class="art-info-grid">
         <div class="art-box">
@@ -506,13 +537,8 @@ import {
     </div>
   `;
 
-    // --- ダイアログ本体を差し替え ---
     artDialog.querySelector(".art-dialog-body").innerHTML = contentHtml;
-
-    // --- ダイアログ表示 ---
-    if (typeof artDialog.showModal === "function") {
-      artDialog.showModal();
-    }
+    artDialog.showModal?.();
 
     // --- 地図ズーム ---
     if (view && a.geometry) {
@@ -523,6 +549,9 @@ import {
     }
   }
 
+  // ✅ ここから次の行に続ける（artDialogCloseなど）
+  artDialogClose.addEventListener("click", () => artDialog.close());
+
   artDialogClose.addEventListener("click", () => artDialog.close());
 
   // === 協作リクエスト開始 ===
@@ -531,7 +560,7 @@ import {
 
     // ✅ 作品名ではなく「制作者」に表示を変更
     const targetAuthor = dialogTarget.author || "制作者";
-    confirmText.textContent = `${targetAuthor} さんに協作をリクエストします。よろしいですか？`;
+    confirmText.textContent = `${targetAuthor} さんに協作をリクエストします。<br>よろしいですか？`;
 
     confirmDialog.showModal();
   });
@@ -548,7 +577,7 @@ import {
       launchBubbleToMap({
         id: "req-" + crypto.randomUUID(),
         art_id: dialogTarget.art_id,
-        text: "💌 協作リクエスト送信",
+        text: "✉協作リクエスト送信",
         geometry: dialogTarget.geometry,
         ts: Date.now(),
       });
@@ -557,7 +586,7 @@ import {
         const targetAuthor = dialogTarget.author || "制作者";
         // ✅ alert → トースト通知に変更
         showToast(
-          `💌 ${targetAuthor} さんに協作リクエストを送信しました！<br>一緒に作品をつくる準備をしましょう！`
+          `✉${targetAuthor} さんに協作リクエストを送信しました！<br>一緒に作品をつくる準備をしましょう！`
         );
       }, 150);
     }
