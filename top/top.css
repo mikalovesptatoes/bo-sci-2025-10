@@ -431,9 +431,9 @@ body.focused .floating-title {
 /* body.focusedのときにのみ表示 */
 body.focused #floatingTitle {
     opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    animation: titleFadeIn 1.2s ease forwards;
+  visibility: visible;
+  transform: translateY(0);
+  animation: titleFadeInSync 6s ease-in-out forwards;
 }
 
 /* アニメーション定義 */
@@ -848,10 +848,17 @@ input:focus {
 }
 
 .create-btn {
-    background: linear-gradient(135deg, #f57542, #ed6c0a);
-    border: 2px solid #de4b01;
+    background: linear-gradient(135deg, #f57e42, #ed6c0a);
+    border: 2px solid #de4b01d2;
     color: #fff;
     box-shadow: 0 8px 20px rgba(245, 197, 66, 0.35);
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    line-height: 1.2;      
+    padding: 14px 36px;     
+    height: auto;          
+    box-sizing: border-box; 
 }
 
 .create-btn:hover {
@@ -1137,146 +1144,6 @@ input:focus {
     align-items: center;
 }
 
-/* ===============================
-   下部エリア（マップ＋ログイン横並び）
-================================= */
-.bottom-area {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 40px;
-  flex-wrap: wrap;
-  padding: 100px 5vw;
-  margin: 0 auto;
-  max-width: 1280px; 
-}
-
-
-/* 左側：マップボックス */
-.map-box {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    padding: 1.5rem;
-    width: 480px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.map-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.map-box img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.map-box h3 {
-  
-    color: var(--ink);
-    font-size: 1.4rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}
-
-.map-box .highlight {
-    color: #1e88e5;
-    font-weight: 700;
-    font-family: sans-serif;
-}
-
-/* 高さをログインボックスと合わせる */
-.login-box,
-.map-box {
-    flex: 1 1 0;
-    height: 560px;
-    display: flex;
-    flex-direction: column;
-}
-
-/* ===============================
-   ご近所アートチャットボックス
-================================= */
-.chat-box {
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: var(--shadow);
-  padding: 1.5rem;
-  width: 480px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.chat-box:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-}
-
-.chat-box img {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.chat-box h3 {
-  color: var(--ink);
-  font-size: 1.4rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.
-
-.chat-box .highlight {
-  color: #f57542;
-  font-weight: 700;
-  font-family: sans-serif;
-}
-
-/* 3列を並列にする */
-.bottom-area {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 40px;
-  flex-wrap: wrap; /* 画面が狭いとき自動で折り返し */
-  padding: 100px 5vw;
-}
-
-/* 各ボックス共通 */
-.map-box, .chat-box, .login-box {
-  flex: 1 1 300px; /* ✅ 最小幅を指定 */
-  max-width: 400px;
-  height: auto; 
-}
-
-@media (max-width: 1100px) and (min-width: 768px) {
-  .bottom-area {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 32px;
-  }
-
-  .map-box, .chat-box, .login-box {
-    flex: 1 1 45%; /* ✅ 2列表示に */
-    max-width: 45%;
-    height: auto;
-  }
-}
 
 
 /* ============================
@@ -1656,3 +1523,142 @@ input:focus {
     margin-top: 1.5rem;
   }
 }
+
+
+/* ===============================
+   下部エリア全体
+=============================== */
+.bottom-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ✅ タイトル中央 */
+  justify-content: center;
+  gap: 60px;
+  padding: 80px 5vw;
+  width: 100%;
+  background: var(--bg);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* 見出し */
+.bottom-area > h1 {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--ink);
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 auto 40px auto;
+  letter-spacing: 0.05em;
+}
+
+/* ===============================
+   カードコンテンツ（中央固定）
+=============================== */
+.bottom-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* ✅ 左右2分割 */
+  align-items: stretch;
+  justify-items: center;           /* ✅ 各カラム中央に */
+  justify-content: center;         /* ✅ グリッド全体を中央寄せ */
+  gap: 60px;
+  width: 100%;
+  max-width: 1150px;               /* ✅ 中央配置の基準幅 */
+  margin: 0 auto;                  /* ✅ 全体中央寄せ */
+  box-sizing: border-box;
+}
+
+/* 左カラム（マップ＋チャット） */
+.left-column {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+  height: 100%;
+  width: 100%;
+  max-width: 520px; /* ✅ 左右バランス調整 */
+}
+
+/* 各ボックス共通 */
+.map-box,
+.chat-box,
+.login-box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+  padding: 20px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 520px;
+}
+
+.map-box:hover,
+.chat-box:hover,
+.login-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* タイトル */
+.bottom-area h3 {
+  font-family: "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  color: #0c305a;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+/* 強調 */
+.highlight {
+  color: #2e598f;
+}
+
+.highlight-red {
+  color: #e53935;
+  font-weight: 700;
+}
+
+/* 画像・動画 */
+.map-box img,
+.chat-box img,
+.login-demo-video {
+  width: 100%;
+  border-radius: 14px; 
+  margin-top: 12px;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.05),   
+    0 8px 20px rgba(0, 0, 0, 0.08);  
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  margin-bottom:24px;
+}
+
+/* ===============================
+   レスポンシブ対応
+=============================== */
+@media (max-width: 900px) {
+  .bottom-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    width: 90%;
+  }
+}
+
+/* 🔧 「閉じる」ボタンのテキスト中央揃え */
+#closeChatPopup,
+.guest-btn {
+  display: flex;
+  align-items: center;    /* 縦中央揃え */
+  justify-content: center; /* 横中央揃え */
+  line-height: 1.2;
+  padding: 12px 28px;
+  height: auto;
+  box-sizing: border-box;
+}
+

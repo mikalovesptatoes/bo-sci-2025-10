@@ -271,7 +271,7 @@ document.getElementById("createBtn")?.addEventListener("click", () => {
 // ✅ ポップアップの選択肢
 withAccount?.addEventListener("click", () => {
   choicePopup?.classList.remove("show");
-  window.location.href = "register.html";
+  window.location.href = "./top/register.html";
 });
 withoutAccount?.addEventListener("click", () => {
   choicePopup?.classList.remove("show");
@@ -399,7 +399,7 @@ async function updateUserUI(user) {
       school
     )}" class="header-btn">${school}ご近所さんアートチャット</a>
     <a href="../map/index.html" class="header-btn">防災行動マップ</a>
-    <a href="../guide/index.html" class="header-btn highlight-btn">作品制作</a>
+    <a href="../workshop/intro/index.html" class="header-btn highlight-btn">作品制作</a>
   `;
 
   // 🔹ログアウトボタンのバインド

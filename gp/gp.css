@@ -20,6 +20,22 @@ body{
   font-family: "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   line-height:1.6;
 }
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; 
+}
+
+
+main.layout {
+  height: calc(100vh - 64px); /* ✅ ヘッダーを除いた残りをレイアウト領域に */
+  display: grid;
+  grid-template-columns: 1fr 460px;
+  gap: 16px;
+  padding: 14px 16px;
+  overflow: hidden; /* ✅ main内のはみ出しも防止 */
+}
+
 
 /* Header */
 .app-header{
@@ -105,37 +121,6 @@ body{
   position:absolute; inset:0; pointer-events:none; overflow:visible;
 }
 
-/* Bubble styles */
-/* 💬 コメント泡（シャボン玉風） */
-.bubble {
-  position: absolute;
-  min-width: 100px;
-  max-width: 200px;
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #003366;
-  text-align: center;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(173,216,230,0.4) 60%, rgba(255,255,255,0.2));
-  box-shadow:
-    inset 0 0 10px rgba(255,255,255,0.5),
-    0 0 20px rgba(135,206,250,0.6);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.6);
-  animation: floatUp 8s ease-in-out infinite;
-  opacity: 0.95;
-  pointer-events: none;
-}
-
-/* 💫 ふわふわ浮くアニメーション */
-@keyframes floatUp {
-  0%   { transform: translateY(0px) scale(1); opacity: 0.9; }
-  25%  { transform: translateY(-20px) scale(1.05); opacity: 1; }
-  50%  { transform: translateY(-40px) scale(0.98); opacity: 0.85; }
-  75%  { transform: translateY(-60px) scale(1.03); opacity: 0.9; }
-  100% { transform: translateY(0px) scale(1); opacity: 0.95; }
-}
 
 .bubble.float {
   position: absolute;
@@ -175,14 +160,26 @@ body{
 }
 
 /* Right panel */
-.right-panel{
-  display:flex; flex-direction:column; gap:12px;
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
 }
-.right-head{
-  background:var(--card); border:1px solid #eaeaea; border-radius:var(--radius); box-shadow:var(--shadow);
-  padding:12px 14px;
+
+.right-head {
+  padding: 8px 12px;                /* ← 元: 12px 14px */
+  margin-bottom: 4px;               /* ← 少し間を詰める */
 }
-.hint{font-size:.92rem;color:var(--muted)}
+.right-head h2 {
+  font-size: 1.05rem;               /* ← 見出しを少し小さく */
+  margin: 0 0 4px 0;
+}
+.hint {
+  font-size: 0.85rem;               /* ← テキストも少し小さく */
+  color: var(--muted);
+  line-height: 1.4;
+}
 
 /* Carousel */
 /* .carousel{
@@ -193,25 +190,39 @@ body{
   display:flex; gap:16px; overflow-x:auto; scroll-snap-type: x mandatory; padding-bottom:8px;
 } */
 
-/* 縦ロールスタイル */
-/* ============================================================
-   🎮 マリオカート風 縦スクロール・セレクトUI
-   （中央カードが光って拡大／上下は縮小してフェード）
-   ※カード幅は現状維持
-============================================================ */
+.map-card,
+.right-panel {
+  height: 100%;
+  overflow: hidden;
+}
 
-/* === 全体レイアウト === */
+.map-card,
+.right-panel {
+  height: 100%;
+}
+
+@media (max-width: 1024px) {
+  main.layout {
+    grid-template-columns: 1fr;
+    height: auto;          /* ← モバイルでは通常スクロール */
+    overflow: visible;
+  }
+  .map-card,
+  .right-panel {
+    height: auto;
+  }
+}
+
 .carousel-vertical {
-  height: 360px;
-  /* overflow-y: auto; */
+  min-height: 250px; 
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   border-radius: 12px;
-  padding: 12px;
+  padding: 10px;
   background: linear-gradient(180deg, #eef6ff 0%, #f9fafb 100%);
   box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.6),
               0 2px 8px rgba(0, 0, 0, 0.08);
@@ -221,12 +232,12 @@ body{
 .carousel-track-vertical {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;   
   gap: 14px;
   position: relative;
-  padding: 20px 0;
-  height: 100%;
-  overflow-y: auto;  /* ✅ ← スクロールをここに移す */
+  padding: 0px 10px;
+  /* height: 100%; ← 削除 ✅ 自由に伸ばせるように */
+  overflow-y: auto;  
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
@@ -245,15 +256,18 @@ body{
     opacity 0.35s ease;
   transform-origin: center center;
   scroll-snap-align: center;
-  opacity: 0.6;
+  opacity: 1;
   transform: scale(0.9) rotateX(20deg);
   border: 2px solid transparent;
+  min-height: 240px;     
+  padding-bottom: -6px; 
+  
 }
 
 /* === カード内の画像 === */
 .carousel-track-vertical img {
   max-width: 100%;
-  height: 145px;
+  height: 170px;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 }
@@ -296,13 +310,38 @@ body{
 }
 
 
+/* カード内の No Image / プレースホルダー共通スタイル */
+.card-placeholder {
+  height: 145px;
+  background: #eee;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* トップカード専用のプレースホルダースタイル */
+.top-card-placeholder {
+  background: linear-gradient(135deg, #fefce8, #fffbeb);
+  font-size: 3rem; /* 🌟 を大きく */
+  height: 145px; /* 高さをNo Imageと統一 */
+}
+
+/* トップカード自体のスタイル（枠線など） */
+.card.top-card {
+  border: 2px dashed var(--brand);
+  background: #f8fcfd;
+}
+
 /* === ホバー時（軽く浮く） === */
 .card:hover {
   transform: translateY(-3px) scale(1.05);
 }
 
-/* === アクティブ時（中央カード） ===
-.carousel-track-vertical .card.active {
+
+/* .carousel-track-vertical .card.active {
   transform: scale(1.1) rotateX(0deg);
   opacity: 1;
   box-shadow: 0 0 20px rgba(255, 200, 0, 0.5),
@@ -326,10 +365,20 @@ body{
 /* Comment box */
 .comment-box{
   background:var(--card); border:1px solid #eaeaea; border-radius:var(--radius); box-shadow:var(--shadow);
-  padding:14px; display:grid; gap:8px;
+  padding:8px 12px; display:grid; gap:6px;
 }
+
+.comment-box h3 {
+  font-size: 1rem;                  /* ← タイトルも若干小さく */
+  margin: 0 0 4px 0;
+}
+
+.comment-actions {
+  margin-top: 2px;                  /* ← 下部の余白を軽減 */
+}
+
 textarea{
-  width:100%; min-height:90px; resize:vertical;
+  width:100%; min-height:80px; resize:vertical;
   border:1px solid #e5e7eb; border-radius:12px; padding:10px 12px; background:#fff;
 }
 .comment-actions{
@@ -338,15 +387,16 @@ textarea{
 
 /* Selection info */
 .selection-info{
-  background:#fff; border:1px dashed #e5e7eb; border-radius:12px; padding:10px 12px; color:var(--muted)
+  background:#fff; border:1px dashed #e5e7eb; border-radius:12px; padding:8px 10px 12px; font-size: 0.9rem; color:var(--muted); margin-top: -32px;
 }
+
 .selection-title{ font-weight:800; color:#0f172a }
 
 /* Art dialog */
 
 .art-dialog {
-  width: 80vw;
-  max-width: 1200px;
+  width: 70vw;
+  max-width: 1000px;
   height: 80vh;
   border: none;
   outline: none;
@@ -399,15 +449,16 @@ textarea{
   overflow-y: auto;
   padding: 24px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
   gap: 20px;
+  
 }
 
 /* === 画像 === */
 .art-image-wrap {
   width: 100%;
   text-align: center;
-  padding-bottom: 24px;
+  /* padding-bottom: 24px; */
 }
 
 .art-image {
@@ -434,6 +485,8 @@ textarea{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  /* overflow-y: auto; */
+  padding-bottom: 20px;
 }
 
 .art-box {
@@ -443,7 +496,7 @@ textarea{
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
   padding: 16px 18px;
   transition: transform 0.2s ease;
-  margin-bottom: 48px;
+  /* margin-bottom: 48px; */
 }
 
 .art-box:hover {
@@ -480,6 +533,15 @@ textarea{
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05); /* 💫 やわらかい浮き感 */
   z-index: 10;
 }
+
+.art-content {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+  /* height: 100%; */ /* ← 削除 */
+}
+
 
 /* === ボタン本体 === */
 #requestCollabBtn {

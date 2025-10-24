@@ -11,6 +11,7 @@
 
   <!-- App CSS -->
   <link rel="stylesheet" href="gp.css" />
+
 </head>
 <body>
 
@@ -27,13 +28,7 @@
     <div class="header-actions">
       <div class="district-badge" id="districtLabel">学区：<span id="districtName">（未設定）</span></div>
       <button id="makeTogetherBtn" class="btn btn-primary">🌟 みんなでつくる</button>
-      <div class="account">
-        <div class="avatar" id="avatar">P</div>
-        <div class="account-meta">
-          <div id="displayName" class="account-name">Guestさん</div>
-          <div class="pill">ログイン中</div>
-        </div>
-      </div>
+      <a href="../index.html" class="btn btn-primary">トップに戻る</a>
     </div>
   </header>
 
@@ -56,7 +51,7 @@
     <aside class="right-panel">
       <div class="right-head">
         <h2>地域の作品集</h2>
-        <div class="hint">地域の方の作品にコメントを送ったり、<br>魅力的だと思った制作者さんに「協作リクエスト」ができます！
+        <div class="hint">地域の方の作品にコメントを送ったり、魅力的だと思った制作者さんに「協作リクエスト」ができます！
         </div>
       </div>
 
@@ -76,7 +71,7 @@
       <div class="comment-box">
         <h3>💬 コメントを送る</h3>
         <div class="small">選択中の作品へコメントが送られます。</div>
-        <textarea id="commentInput" placeholder="作品の感想や共感ポイント、気づいたこと等を気軽にどうぞ。"></textarea>
+        <textarea id="commentInput" placeholder="作品の感想や共感ポイント、気づいたこと等を気軽にどうぞ！"></textarea>
         <div class="comment-actions">
           <label class="small"><input type="checkbox" id="commentAnon" checked> 匿名で送信</label>
           <button id="sendCommentBtn" class="btn btn-primary">コメントを送信する</button>

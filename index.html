@@ -87,9 +87,9 @@
   
   <div class="video-section">
     <h1>アート制作は楽しくて簡単！</h1>
-    <p>お手持ちのデジタルデバイスで、マーブリングを楽しみながら</p>
+    <p>お手持ちのデジタルデバイスで、マーブリングを楽しめます！</p>
     <video
-      src="./top/images/dora.mp4"
+      src="./top/images/mabling-demo.mp4"
       autoplay
       muted
       loop
@@ -98,7 +98,7 @@
     ></video>
   </div>
 
-  <!-- 🔹 コラージュ動画 -->
+  <!-- 🔹 コラージュ動画
   <div class="video-section">
     <p>コラージュで、更にメッセージを追加！</p>
     <video
@@ -109,7 +109,7 @@
       playsinline
       class="demo-video"
     ></video>
-  </div>
+  </div> -->
 
   <div class="create-box">
     <h1>あなたの気づきを<br>アートで伝えてみませんか？</h1>
@@ -144,8 +144,8 @@
         </div>
       </div>
     </div>
-    <h1>作品制作後にはあなたの地域で必要な防災行動への理解が深まります</h1>
-    <h1>作品制作後の姿を表示</h1>
+    <!-- <h1>作品制作後にはあなたの地域で必要な防災行動への理解が深まります</h1>
+    <h1>作品制作後の姿を表示</h1> -->
   </div>
 
   <!-- ===== ギャラリー領域 ===== -->
@@ -182,38 +182,53 @@
       </div>
     </article>
   </section>
-
+　　 
   <section class="bottom-area">
-    <!-- 左：マップボックス -->
-    <div class="map-box" onclick="window.location.href='../map/index.html'">
-      <h3><span class="highlight">防災行動マップ</span><br>で作品を鑑賞する</h3>
-      <img src="./top/images/map-demo.png" alt="防災行動マップ" />
+  <h1>今すぐ　簡単に<br>体験が開始できます！</h1>
+
+  <div class="bottom-content">
+    <!-- 左：マップ＋チャット -->
+    <div class="left-column">
+      <div class="map-box" onclick="window.location.href='../map/index.html'">
+        <h3><span class="highlight">防災行動マップ</span><br>で作品を鑑賞する</h3>
+        <img src="./top/images/map-demo.png" alt="防災行動マップ" />
+      </div>
+
+      <div class="chat-box" id="chatBox">
+        <h3><span class="highlight">ご近所アートチャット</span><br>で交流する</h3>
+        <img src="./top/images/chat-demo.png" alt="ご近所アートチャット" />
+      </div>
     </div>
 
-    <!-- ===== 下部ログインエリア ===== -->
-<div class="login-box">
-  <h3>作品制作に参加する</h3>
-  <div class="create-btn-container">
-    <button class="create-btn start-create">作品を制作してみる</button>
-    <div class="divider">または</div>
-    <button id="guestBtn" class="guest-btn">ツール体験に進む</button>
-    <p>▼アカウント登録済みの方はこちら▼</p>
+    <!-- 右：ログインエリア -->
+    <div class="login-box">
+      <h3><span class="highlight-red">作品制作</span><br>に参加する</h3>
+      <video 
+        src="./top/images/artwork-demo.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        class="login-demo-video">
+      </video>
 
-    <!-- 🔹重複しないよう別IDに変更 -->
-    <input id="registerEmail" type="email" placeholder="メールアドレス（登録用）" autocomplete="username">
-    <input id="registerPassword" type="password" placeholder="パスワード（登録用）" autocomplete="current-password">
+      <div class="create-btn-container">
+        <button class="create-btn start-create">作品を制作してみる</button>
+        <div class="divider">または</div>
+        <button id="guestBtn" class="guest-btn">ツール体験に進む</button>
+        <p>▼アカウント登録済みの方はこちら▼</p>
 
-    <!-- 🔹ここは「ログインポップを開く」ボタンに変える -->
-    <button id="openLoginPopup">ログイン</button>
+        <input id="registerEmail" type="email" placeholder="メールアドレス（登録用）" autocomplete="username">
+        <input id="registerPassword" type="password" placeholder="パスワード（登録用）" autocomplete="current-password">
 
-    <p class="note">ログイン後に作品を保存・共有できます</p>
-  </div>
-</div>
-  <!-- 中央：ご近所アートチャットボックス -->
-  <div class="chat-box" id="chatBox">
-    <h3><span class="highlight">ご近所アートチャット</span><br>で交流する</h3>
-    <img src="./top/images/chat-thumbnail.png" alt="ご近所アートチャット" />
-  </div>
+        <button id="openLoginPopup">ログイン</button>
+        <p class="note">ログイン後に作品を保存・共有できます</p>
+      </div>
+    </div>
+  </div> <!-- ✅ bottom-contentをここで閉じる -->
+</section>
+
+
 
   <!-- 🔹 ポップアップ本体 -->
   <div id="chatPopup" class="popup hidden">
@@ -228,8 +243,11 @@
         class="demo-video"
       ></video>
       <p>
-        「ご近所アートチャット」は、地域の作品を見ながら感想を共有できる交流ページです。<br>  
-        コメントやリアクションを通じて、地域住民の防災意識を育みます。
+        「ご近所アートチャット」は、地域の人たちが制作した防災アート作品を見ながら、感想や気づきを共有できるページです。<br>忙しい毎日の合間でも、作品を眺めて「いいね」と思ったことを言葉にするだけ。
+         <br>それが、地域の防災やまちづくりを考える小さな一歩になります。
+         <br>作品を通じて、同じ地域に暮らす人の想いや発見を知ることで、
+         <br>自分のまちへの関心や安心感が少しずつ広がっていきます。
+         <br>コメントやリアクションを通じて、地域住民の防災意識を育みます。
       </p>
       <button id="goChatBtn" class="create-btn">使ってみる</button>
       <button id="closeChatPopup" class="guest-btn">閉じる</button>
