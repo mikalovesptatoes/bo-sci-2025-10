@@ -852,13 +852,6 @@ input:focus {
     border: 2px solid #de4b01d2;
     color: #fff;
     box-shadow: 0 8px 20px rgba(245, 197, 66, 0.35);
-    display: flex;
-    align-items: center; 
-    justify-content: center;
-    line-height: 1.2;      
-    padding: 14px 36px;     
-    height: auto;          
-    box-sizing: border-box; 
 }
 
 .create-btn:hover {
@@ -1648,17 +1641,5 @@ input:focus {
     gap: 40px;
     width: 90%;
   }
-}
 
-/* 🔧 「閉じる」ボタンのテキスト中央揃え */
-#closeChatPopup,
-.guest-btn {
-  display: flex;
-  align-items: center;    /* 縦中央揃え */
-  justify-content: center; /* 横中央揃え */
-  line-height: 1.2;
-  padding: 12px 28px;
-  height: auto;
-  box-sizing: border-box;
-}
-
+  

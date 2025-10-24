@@ -196,11 +196,6 @@ main.layout {
   overflow: hidden;
 }
 
-.map-card,
-.right-panel {
-  height: 100%;
-}
-
 @media (max-width: 1024px) {
   main.layout {
     grid-template-columns: 1fr;
@@ -448,10 +443,9 @@ textarea{
   flex: 1;
   overflow-y: auto;
   padding: 24px;
-  display: flex;
-  flex-direction: column; 
-  gap: 20px;
-  
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* gap: 20px; */
 }
 
 /* === 画像 === */
@@ -485,7 +479,7 @@ textarea{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  /* overflow-y: auto; */
+  overflow-y: auto;
   padding-bottom: 20px;
 }
 
@@ -535,11 +529,11 @@ textarea{
 }
 
 .art-content {
-  display: flex;
-  flex-direction: column;
-
+  display: grid;
+  /* (auto) row for image, (1fr) row for info grid */
+  grid-template-rows: auto 1fr; 
   gap: 20px;
-  /* height: 100%; */ /* ← 削除 */
+  height: 100%; /* ダイアログ本体の高さに合わせる */
 }
 
 

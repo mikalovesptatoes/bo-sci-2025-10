@@ -28,7 +28,13 @@
     <div class="header-actions">
       <div class="district-badge" id="districtLabel">学区：<span id="districtName">（未設定）</span></div>
       <button id="makeTogetherBtn" class="btn btn-primary">🌟 みんなでつくる</button>
-      <a href="../index.html" class="btn btn-primary">トップに戻る</a>
+      <div class="account">
+        <div class="avatar" id="avatar">P</div>
+        <div class="account-meta">
+          <div id="displayName" class="account-name">Guestさん</div>
+          <div class="pill">ログイン中</div>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -71,7 +77,7 @@
       <div class="comment-box">
         <h3>💬 コメントを送る</h3>
         <div class="small">選択中の作品へコメントが送られます。</div>
-        <textarea id="commentInput" placeholder="作品の感想や共感ポイント、気づいたこと等を気軽にどうぞ！"></textarea>
+        <textarea id="commentInput" placeholder="作品の感想や共感ポイント、気づいたこと等を気軽にどうぞ。"></textarea>
         <div class="comment-actions">
           <label class="small"><input type="checkbox" id="commentAnon" checked> 匿名で送信</label>
           <button id="sendCommentBtn" class="btn btn-primary">コメントを送信する</button>
